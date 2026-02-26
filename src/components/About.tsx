@@ -52,7 +52,7 @@ export default function About({ about, advantages, editable, onEditAbout, onEdit
         <AnimateOnScroll animation="fade-up" delay={100}>
           <div className={`max-w-3xl mx-auto mb-16 relative ${editable ? 'cursor-pointer group' : ''}`} onClick={() => editable && onEditAbout?.()}>
             {editable && (
-              <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#c9a962] rounded-lg items-center justify-center text-[#0b1c2b] opacity-0 group-hover:opacity-100 transition-opacity hidden group-hover:flex z-10">
+              <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#c9a962] rounded-lg flex items-center justify-center text-[#0b1c2b] opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity z-10">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
               </div>
             )}
@@ -76,7 +76,7 @@ export default function About({ about, advantages, editable, onEditAbout, onEdit
                   onClick={() => editable && onEditAdvantage?.(item)}
                 >
                   {editable && (
-                    <div className="absolute top-2 right-2 w-7 h-7 bg-[#c9a962] rounded-lg items-center justify-center text-[#0b1c2b] opacity-0 group-hover:opacity-100 transition-opacity hidden group-hover:flex z-10">
+                    <div className="absolute top-2 right-2 w-7 h-7 bg-[#c9a962] rounded-lg flex items-center justify-center text-[#0b1c2b] opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity z-10">
                       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
                     </div>
                   )}

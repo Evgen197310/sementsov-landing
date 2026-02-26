@@ -83,7 +83,7 @@ export default function Services({ services: allServices, editable, onEdit, onDe
                   onClick={() => editable && onEdit?.(service)}
                 >
                   {editable && (
-                    <div className="absolute top-2 right-2 flex gap-1 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute top-2 right-2 flex gap-1 z-10 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                       <button onClick={(e) => { e.stopPropagation(); onEdit?.(service); }} className="w-7 h-7 bg-[#c9a962] rounded-lg flex items-center justify-center text-[#0b1c2b] hover:bg-[#ddc488] transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
                       </button>

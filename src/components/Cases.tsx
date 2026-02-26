@@ -59,7 +59,7 @@ export default function Cases({ cases, editable, onEdit, onDelete, onAdd }: Case
               <AnimateOnScroll key={item.id} animation="fade-up" delay={index * 100}>
                 <div className={`bg-gradient-to-br from-[#1e3a51]/40 to-[#1e3a51]/20 rounded-2xl border border-[#1e3a51]/50 p-6 md:p-8 h-full card-enhanced relative ${editable ? 'group' : ''}`}>
                   {editable && (
-                    <div className="absolute top-3 right-3 flex gap-1 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute top-3 right-3 flex gap-1 z-10 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                       <button onClick={() => onEdit?.(item)} className="w-8 h-8 bg-[#c9a962] rounded-lg flex items-center justify-center text-[#0b1c2b] hover:bg-[#ddc488] transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
                       </button>

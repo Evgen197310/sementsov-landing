@@ -1,0 +1,22 @@
+services:
+  sementsov-frontend:
+    build: .
+    container_name: sementsov-frontend
+    restart: unless-stopped
+    environment:
+      - JWT_SECRET=${JWT_SECRET:-sementsov-secret-change-me}
+      - ADMIN_USER=${ADMIN_USER:-admin}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
+    volumes:
+      - sementsov-data:/app/data
+      - sementsov-uploads:/app/uploads
+    networks:
+      - pustoshilov-lawyer_default
+
+volumes:
+  sementsov-data:
+  sementsov-uploads:
+
+networks:
+  pustoshilov-lawyer_default:
+    external: true

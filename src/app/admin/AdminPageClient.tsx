@@ -369,16 +369,7 @@ export default function AdminPageClient({ user, initialData }: Props) {
         <Team members={data.team} editable onEdit={openTeamEdit} onDelete={deleteTeam} onAdd={openTeamAdd} />
         <Cases cases={data.cases} editable onEdit={openCaseEdit} onDelete={deleteCase} onAdd={openCaseAdd} />
 
-        {/* Contacts with edit overlay */}
-        <div className="relative group/contacts">
-          <ContactForm contacts={data.contacts} />
-          <div className="absolute top-4 right-4 z-20 opacity-100 md:opacity-0 md:group-hover/contacts:opacity-100 transition-opacity">
-            <button onClick={openContactsEdit} className="bg-[#c9a962] hover:bg-[#ddc488] text-[#0b1c2b] rounded-lg px-3 py-2 text-xs font-medium flex items-center gap-1.5 shadow-lg">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
-              Редактировать контакты
-            </button>
-          </div>
-        </div>
+        <ContactForm contacts={data.contacts} editable onEdit={openContactsEdit} />
 
         <Footer contacts={data.contacts} />
       </div>

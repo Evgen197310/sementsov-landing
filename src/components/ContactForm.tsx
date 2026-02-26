@@ -64,6 +64,14 @@ export default function ContactForm({ contacts, editable, onEdit }: ContactFormP
   return (
     <section id="contacts" className="section-padding bg-[#0b1c2b] relative overflow-hidden">
       <div className="max-w-7xl mx-auto relative z-10">
+        {editable && (
+          <div className="flex justify-end mb-2">
+            <button onClick={() => onEdit?.()} className="bg-[#c9a962] hover:bg-[#ddc488] text-[#0b1c2b] rounded-lg px-3 py-2 text-xs font-medium flex items-center gap-1.5 shadow-lg z-20">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+              Редактировать контакты
+            </button>
+          </div>
+        )}
         <AnimateOnScroll animation="fade-up">
           <div className="text-center mb-12">
             <span className="text-[#c9a962] text-sm uppercase tracking-widest font-medium mb-4 block">

@@ -251,6 +251,47 @@ export default function AdminPageClient({ user, initialData }: Props) {
     setModal(null);
   };
 
+  // ============ Change password handlers ============
+  const [passwordForm, setPasswordForm] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" });
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState("");
+
+  const openPasswordChange = () => {
+    setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
+    setPasswordError("");
+    setPasswordSuccess("");
+    setModal({ type: "change-password" });
+  };
+
+  const savePassword = async () => {
+    setPasswordError("");
+    setPasswordSuccess("");
+    if (!passwordForm.currentPassword || !passwordForm.newPassword) {
+      setPasswordError("Заполните все поля");
+      return;
+    }
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      setPasswordError("Новый пароль и подтверждение не совпадают");
+      return;
+    }
+    if (passwordForm.newPassword.length < 4) {
+      setPasswordError("Новый пароль должен быть не менее 4 символов");
+      return;
+    }
+    const res = await fetch("/api/auth/change-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ currentPassword: passwordForm.currentPassword, newPassword: passwordForm.newPassword }),
+    });
+    if (res.ok) {
+      setPasswordSuccess("Пароль успешно изменён");
+      setTimeout(() => setModal(null), 1500);
+    } else {
+      const data = await res.json();
+      setPasswordError(data.error || "Ошибка");
+    }
+  };
+
   // ============ Contacts handlers ============
   const [contactsForm, setContactsForm] = useState<Partial<ContactsData>>({});
 
@@ -300,6 +341,9 @@ export default function AdminPageClient({ user, initialData }: Props) {
               </a>
             )}
             <span className="text-xs text-[#7f97a5]">{user.username}</span>
+            <button onClick={openPasswordChange} className="text-xs text-[#7f97a5] hover:text-[#efebe8] transition-colors">
+              Сменить пароль
+            </button>
             <button onClick={handleLogout} className="text-xs text-red-400 hover:text-red-300 transition-colors">
               Выйти
             </button>
@@ -515,6 +559,25 @@ export default function AdminPageClient({ user, initialData }: Props) {
         </div>
         <div className="flex gap-3 mt-6">
           <button onClick={saveHero} className={btnPrimary}>Сохранить</button>
+          <button onClick={() => setModal(null)} className="text-sm text-[#7f97a5] hover:text-[#efebe8]">Отмена</button>
+        </div>
+      </Modal>
+
+      {/* Change Password Modal */}
+      <Modal open={modal?.type === "change-password"} onClose={() => setModal(null)} title="Сменить пароль">
+        <Field label="Текущий пароль">
+          <input type="password" className={inputClass} value={passwordForm.currentPassword} onChange={e => setPasswordForm(f => ({ ...f, currentPassword: e.target.value }))} />
+        </Field>
+        <Field label="Новый пароль">
+          <input type="password" className={inputClass} value={passwordForm.newPassword} onChange={e => setPasswordForm(f => ({ ...f, newPassword: e.target.value }))} />
+        </Field>
+        <Field label="Подтвердите новый пароль">
+          <input type="password" className={inputClass} value={passwordForm.confirmPassword} onChange={e => setPasswordForm(f => ({ ...f, confirmPassword: e.target.value }))} />
+        </Field>
+        {passwordError && <p className="text-red-400 text-sm mb-3">{passwordError}</p>}
+        {passwordSuccess && <p className="text-green-400 text-sm mb-3">{passwordSuccess}</p>}
+        <div className="flex gap-3 mt-6">
+          <button onClick={savePassword} className={btnPrimary}>Сохранить</button>
           <button onClick={() => setModal(null)} className="text-sm text-[#7f97a5] hover:text-[#efebe8]">Отмена</button>
         </div>
       </Modal>

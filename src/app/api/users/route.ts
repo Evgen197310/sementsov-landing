@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
-import { getAllUsers, insertUser, updateUserRole, deleteUser, countSuperadmins, getUserById } from "@/lib/db";
+import { getAllUsers, insertUser, updateUserRole, updateUserPassword, deleteUser, countSuperadmins, getUserById } from "@/lib/db";
 import { getUserFromRequest, hashPassword } from "@/lib/auth";
 
 export async function GET(request: Request) {
@@ -47,30 +47,43 @@ export async function PUT(request: Request) {
   }
 
   try {
-    const { id, role } = await request.json();
-    if (!id || !role) {
-      return NextResponse.json({ error: "id and role required" }, { status: 400 });
+    const { id, role, password } = await request.json();
+    if (!id) {
+      return NextResponse.json({ error: "id required" }, { status: 400 });
     }
 
-    // Cannot change own role
-    if (id === caller.userId) {
-      return NextResponse.json({ error: "Нельзя изменить свою собственную роль" }, { status: 400 });
-    }
-
-    // If demoting from superadmin, check they're not the last one
     const targetUser = getUserById(id);
     if (!targetUser) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    if (targetUser.role === "superadmin" && role !== "superadmin") {
-      const superadminCount = countSuperadmins();
-      if (superadminCount <= 1) {
-        return NextResponse.json({ error: "Нельзя забрать роль суперадмина у последнего суперадмина" }, { status: 400 });
+    // Password change by superadmin
+    if (password) {
+      if (password.length < 4) {
+        return NextResponse.json({ error: "Пароль должен быть не менее 4 символов" }, { status: 400 });
       }
+      updateUserPassword(id, hashPassword(password));
+      if (!role) return NextResponse.json({ ok: true });
     }
 
-    updateUserRole(id, role);
+    // Role change
+    if (role) {
+      // Cannot change own role
+      if (id === caller.userId) {
+        return NextResponse.json({ error: "Нельзя изменить свою собственную роль" }, { status: 400 });
+      }
+
+      // If demoting from superadmin, check they're not the last one
+      if (targetUser.role === "superadmin" && role !== "superadmin") {
+        const superadminCount = countSuperadmins();
+        if (superadminCount <= 1) {
+          return NextResponse.json({ error: "Нельзя забрать роль суперадмина у последнего суперадмина" }, { status: 400 });
+        }
+      }
+
+      updateUserRole(id, role);
+    }
+
     return NextResponse.json({ ok: true });
   } catch (e: unknown) {
     const message = e instanceof Error ? e.message : "Unknown error";

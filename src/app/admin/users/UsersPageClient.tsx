@@ -23,6 +23,11 @@ export default function UsersPageClient({ currentUser }: Props) {
   const [newRole, setNewRole] = useState("admin");
   const [error, setError] = useState("");
   const [superadminCount, setSuperadminCount] = useState(0);
+  const [passwordModal, setPasswordModal] = useState<{ userId: string; username: string } | null>(null);
+  const [newUserPassword, setNewUserPassword] = useState("");
+  const [confirmUserPassword, setConfirmUserPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState("");
 
   const loadUsers = useCallback(async () => {
     const res = await fetch("/api/users");
@@ -82,6 +87,34 @@ export default function UsersPageClient({ currentUser }: Props) {
     } else {
       const data = await res.json();
       alert(data.error || "Ошибка");
+    }
+  };
+
+  const openPasswordModal = (user: User) => {
+    setPasswordModal({ userId: user.id, username: user.username });
+    setNewUserPassword("");
+    setConfirmUserPassword("");
+    setPasswordError("");
+    setPasswordSuccess("");
+  };
+
+  const handleChangePassword = async () => {
+    setPasswordError("");
+    setPasswordSuccess("");
+    if (!newUserPassword) { setPasswordError("Введите новый пароль"); return; }
+    if (newUserPassword.length < 4) { setPasswordError("Пароль должен быть не менее 4 символов"); return; }
+    if (newUserPassword !== confirmUserPassword) { setPasswordError("Пароли не совпадают"); return; }
+    const res = await fetch("/api/users", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: passwordModal!.userId, password: newUserPassword }),
+    });
+    if (res.ok) {
+      setPasswordSuccess("Пароль успешно изменён");
+      setTimeout(() => setPasswordModal(null), 1500);
+    } else {
+      const data = await res.json();
+      setPasswordError(data.error || "Ошибка");
     }
   };
 
@@ -205,6 +238,12 @@ export default function UsersPageClient({ currentUser }: Props) {
                 </div>
               </div>
               <div className="flex items-center gap-2">
+                <button
+                  onClick={() => openPasswordModal(user)}
+                  className="text-xs px-3 py-1.5 rounded-full border border-[#7f97a5]/50 text-[#7f97a5] hover:bg-[#7f97a5]/10 transition-colors"
+                >
+                  Сменить пароль
+                </button>
                 {canToggleRole(user) && (
                   <button
                     onClick={() => handleToggleRole(user)}
@@ -229,6 +268,52 @@ export default function UsersPageClient({ currentUser }: Props) {
             </div>
           ))}
         </div>
+
+        {/* Password change modal */}
+        {passwordModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4" onClick={() => setPasswordModal(null)}>
+            <div className="bg-[#0f2435] border border-[#1e3a51] rounded-2xl w-full max-w-md" onClick={e => e.stopPropagation()}>
+              <div className="flex items-center justify-between p-6 border-b border-[#1e3a51]/50">
+                <h2 className="text-lg font-bold text-[#efebe8]" style={{ fontFamily: "Playfair Display, serif" }}>
+                  Сменить пароль: {passwordModal.username}
+                </h2>
+                <button onClick={() => setPasswordModal(null)} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-[#1e3a51] text-[#7f97a5]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+              </div>
+              <div className="p-6">
+                <div className="mb-4">
+                  <label className="block text-sm text-[#7f97a5] mb-1.5">Новый пароль</label>
+                  <input
+                    type="password"
+                    className="w-full bg-[#1e3a51]/30 border border-[#1e3a51] rounded-xl px-4 py-2.5 text-sm text-[#efebe8] focus:border-[#c9a962] focus:outline-none"
+                    value={newUserPassword}
+                    onChange={e => setNewUserPassword(e.target.value)}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm text-[#7f97a5] mb-1.5">Подтвердите пароль</label>
+                  <input
+                    type="password"
+                    className="w-full bg-[#1e3a51]/30 border border-[#1e3a51] rounded-xl px-4 py-2.5 text-sm text-[#efebe8] focus:border-[#c9a962] focus:outline-none"
+                    value={confirmUserPassword}
+                    onChange={e => setConfirmUserPassword(e.target.value)}
+                  />
+                </div>
+                {passwordError && <p className="text-red-400 text-sm mb-3">{passwordError}</p>}
+                {passwordSuccess && <p className="text-green-400 text-sm mb-3">{passwordSuccess}</p>}
+                <div className="flex gap-3">
+                  <button onClick={handleChangePassword} className="bg-[#c9a962] hover:bg-[#ddc488] text-[#0b1c2b] font-medium py-2 px-5 rounded-full text-sm">
+                    Сохранить
+                  </button>
+                  <button onClick={() => setPasswordModal(null)} className="text-sm text-[#7f97a5] hover:text-[#efebe8]">
+                    Отмена
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -501,6 +501,10 @@ export function updateUserRole(id: string, role: string): void {
   getDb().prepare("UPDATE users SET role = ? WHERE id = ?").run(role, id);
 }
 
+export function updateUserPassword(id: string, passwordHash: string): void {
+  getDb().prepare("UPDATE users SET password_hash = ? WHERE id = ?").run(passwordHash, id);
+}
+
 export function deleteUser(id: string): void {
   getDb().prepare("DELETE FROM users WHERE id = ?").run(id);
 }

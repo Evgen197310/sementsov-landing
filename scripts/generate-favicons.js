@@ -4,11 +4,11 @@ const path = require("path");
 
 const publicDir = path.join(__dirname, "..", "public");
 
-// SVG with overlapping СП letters — both gold, same size, П shifted right+down
+// SVG with overlapping СП letters — С gold, П white, same size, П shifted right+down
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <rect width="512" height="512" rx="96" fill="#0b1c2b"/>
   <text x="55" y="350" font-family="Georgia, 'Times New Roman', serif" font-weight="bold" font-size="340" fill="#c9a962">С</text>
-  <text x="175" y="385" font-family="Georgia, 'Times New Roman', serif" font-weight="bold" font-size="340" fill="#c9a962" opacity="0.8">П</text>
+  <text x="175" y="385" font-family="Georgia, 'Times New Roman', serif" font-weight="bold" font-size="340" fill="#efebe8">П</text>
 </svg>`;
 
 const sizes = [

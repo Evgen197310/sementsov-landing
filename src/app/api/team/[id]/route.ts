@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { sanitizeUrl } from "@/lib/validation";
+import { revalidatePath } from "next/cache";
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -21,6 +22,8 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         order: data.order ?? 0,
       },
     });
+    revalidatePath("/team");
+    revalidatePath("/");
     return NextResponse.json(member);
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });
@@ -31,6 +34,8 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
   try {
     const { id } = await params;
     await prisma.teamMember.delete({ where: { id: Number(id) } });
+    revalidatePath("/team");
+    revalidatePath("/");
     return NextResponse.json({ success: true });
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { sanitizeUrl } from "@/lib/validation";
+import { revalidatePath } from "next/cache";
 
 export async function GET() {
   const team = await prisma.teamMember.findMany({ orderBy: { order: "asc" } });
@@ -24,6 +25,8 @@ export async function POST(request: Request) {
         order: data.order ?? 0,
       },
     });
+    revalidatePath("/team");
+    revalidatePath("/");
     return NextResponse.json(member);
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });

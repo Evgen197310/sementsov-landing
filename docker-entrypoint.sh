@@ -8,4 +8,8 @@ if [ ! -f /app/data/prod.db ]; then
   echo "Database ready."
 fi
 
+# Apply pending migrations
+echo "Applying migrations..."
+npx prisma migrate deploy --schema /app/prisma/schema.prisma 2>/dev/null || echo "Migration skipped (prisma CLI not available)"
+
 exec node server.js

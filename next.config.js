@@ -4,7 +4,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  serverExternalPackages: ["better-sqlite3", "sharp"],
+  serverExternalPackages: ["@prisma/client"],
 };
 
 module.exports = nextConfig;

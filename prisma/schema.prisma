@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           Int    @id @default(autoincrement())
+  username     String @unique
+  passwordHash String
+}
+
+model TeamMember {
+  id             Int    @id @default(autoincrement())
+  name           String
+  slug           String @unique
+  position       String @default("")
+  specialization String @default("")
+  bio            String @default("")
+  education      String @default("")
+  experience     String @default("")
+  photo          String @default("")
+  order          Int    @default(0)
+}
+
+model ServiceCategory {
+  id       Int       @id @default(autoincrement())
+  name     String
+  slug     String    @unique
+  services Service[]
+}
+
+model Service {
+  id          Int             @id @default(autoincrement())
+  title       String
+  slug        String          @unique
+  description String          @default("")
+  content     String          @default("")
+  icon        String          @default("")
+  order       Int             @default(0)
+  categoryId  Int
+  category    ServiceCategory @relation(fields: [categoryId], references: [id])
+  faqs        ServiceFaq[]
+}
+
+model ServiceFaq {
+  id        Int     @id @default(autoincrement())
+  question  String
+  answer    String
+  order     Int     @default(0)
+  serviceId Int
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+}
+
+model NewsArticle {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  content     String   @default("")
+  excerpt     String   @default("")
+  section     String   @default("news")
+  attachments String   @default("")
+  createdAt   DateTime @default(now())
+}
+
+model MediaCategory {
+  id          Int            @id @default(autoincrement())
+  name        String
+  slug        String         @unique
+  description String         @default("")
+  articles    MediaArticle[]
+}
+
+model MediaArticle {
+  id         Int            @id @default(autoincrement())
+  title      String
+  slug       String         @unique
+  content    String         @default("")
+  excerpt    String         @default("")
+  source     String         @default("")
+  tags       String         @default("")
+  createdAt  DateTime       @default(now())
+  categoryId Int?
+  category   MediaCategory? @relation(fields: [categoryId], references: [id])
+}
+
+model PracticeCategory {
+  id          Int            @id @default(autoincrement())
+  name        String
+  slug        String         @unique
+  description String         @default("")
+  cases       PracticeCase[]
+}
+
+model PracticeCase {
+  id         Int              @id @default(autoincrement())
+  title      String
+  slug       String           @unique
+  content    String           @default("")
+  excerpt    String           @default("")
+  situation  String           @default("")
+  actions    String           @default("")
+  result     String           @default("")
+  tags       String           @default("")
+  createdAt  DateTime         @default(now())
+  categoryId Int?
+  category   PracticeCategory? @relation(fields: [categoryId], references: [id])
+}
+
+model Partner {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String @default("")
+  website     String @default("")
+  email       String @default("")
+  order       Int    @default(0)
+}
+
+model Document {
+  id      Int    @id @default(autoincrement())
+  title   String
+  slug    String @unique
+  content String @default("")
+  fileUrl String @default("")
+}
+
+model Publication {
+  id        Int      @id @default(autoincrement())
+  title     String
+  slug      String   @unique
+  content   String   @default("")
+  section   String   @default("kuklin")
+  createdAt DateTime @default(now())
+}
+
+model Page {
+  id      Int    @id @default(autoincrement())
+  slug    String @unique
+  title   String
+  content String @default("")
+}
+
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String   @default("")
+  service   String   @default("")
+  message   String
+  createdAt DateTime @default(now())
+  read      Boolean  @default(false)
+}

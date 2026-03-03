@@ -1,8 +1,34 @@
+# === Dependencies ===
 node_modules/
+
+# === Next.js ===
 .next/
 out/
-data/
-uploads/
-*.db
+
+# === Environment ===
 .env
 .env.local
+.env.*.local
+
+# === Prisma ===
+src/generated/prisma/
+*.db
+*.db-journal
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === Debug / logs ===
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === Misc ===
+*.tsbuildinfo

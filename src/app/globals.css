@@ -210,8 +210,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Sticky header */
 .header-scrolled {
   background: rgba(11, 28, 43, 0.98) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-blur: 12px !important;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
 }
 

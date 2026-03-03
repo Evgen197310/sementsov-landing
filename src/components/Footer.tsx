@@ -35,9 +35,9 @@ export function Footer() {
         <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           {/* Form */}
           <div>
-            <h2 className="text-2xl font-['Playfair_Display'] font-semibold text-[#f5f3f0] mb-2">
+            <p className="text-2xl font-['Playfair_Display'] font-semibold text-[#f5f3f0] mb-2">
               Написать нам
-            </h2>
+            </p>
             <p className="text-[#8b9caa] mb-6 text-sm">
               Заполните форму и мы свяжемся с вами в ближайшее время
             </p>
@@ -110,9 +110,9 @@ export function Footer() {
 
           {/* Contact info */}
           <div className="lg:pl-8">
-            <h2 className="text-2xl font-['Playfair_Display'] font-semibold text-[#f5f3f0] mb-6">
+            <p className="text-2xl font-['Playfair_Display'] font-semibold text-[#f5f3f0] mb-6">
               Контакты
-            </h2>
+            </p>
             <div className="space-y-5">
               <div className="flex gap-4">
                 <MapPin className="w-5 h-5 text-[#c9a962] flex-shrink-0 mt-0.5" />

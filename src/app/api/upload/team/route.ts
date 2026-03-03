@@ -3,12 +3,14 @@ import sharp from "sharp";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { randomUUID } from "crypto";
+import { logRequest, logResponse, logError } from "@/lib/logger";
 
 const UPLOAD_DIR = "/app/data/uploads/team";
 const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 
 export async function POST(request: Request) {
   try {
+    logRequest("/api/upload/team", "POST");
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
     if (!file) {
@@ -23,6 +25,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Допустимы только изображения" }, { status: 400 });
     }
 
+    logRequest("/api/upload/team", "POST", { name: file.name, size: file.size, type: file.type });
     const buffer = Buffer.from(await file.arrayBuffer());
 
     const resized = await sharp(buffer)
@@ -41,8 +44,10 @@ export async function POST(request: Request) {
       ? `/api/uploads/team/${filename}`
       : `/team/${filename}`;
 
+    logResponse("/api/upload/team", "POST", 200, { url, filename });
     return NextResponse.json({ url });
   } catch (e) {
+    logError("/api/upload/team", "POST", e);
     return NextResponse.json({ error: String(e) }, { status: 500 });
   }
 }

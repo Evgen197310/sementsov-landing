@@ -4,12 +4,14 @@ import { compareSync } from "bcryptjs";
 import { cookies } from "next/headers";
 import { randomUUID } from "crypto";
 import { rateLimit } from "@/lib/rate-limit";
+import { logRequest, logResponse, logError } from "@/lib/logger";
 
 const SESSION_MAX_AGE = 60 * 60 * 24 * 7; // 7 days in seconds
 
 export async function POST(request: Request) {
   try {
     const ip = request.headers.get("x-forwarded-for") || "unknown";
+    logRequest("/api/auth", "POST", { ip });
     const rl = rateLimit(`auth:${ip}`, { maxRequests: 5, windowMs: 60_000 });
     if (!rl.ok) {
       return NextResponse.json(
@@ -45,13 +47,16 @@ export async function POST(request: Request) {
       path: "/",
     });
 
+    logResponse("/api/auth", "POST", 200, { adminId: admin.id });
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (e) {
+    logError("/api/auth", "POST", e);
     return NextResponse.json({ error: "Ошибка сервера" }, { status: 500 });
   }
 }
 
 export async function GET() {
+  logRequest("/api/auth", "GET");
   const cookieStore = await cookies();
   const tokenCookie = cookieStore.get("admin_token");
   if (!tokenCookie) {
@@ -70,10 +75,12 @@ export async function GET() {
     return NextResponse.json({ authenticated: false }, { status: 401 });
   }
 
+  logResponse("/api/auth", "GET", 200);
   return NextResponse.json({ authenticated: true });
 }
 
 export async function DELETE() {
+  logRequest("/api/auth", "DELETE");
   const cookieStore = await cookies();
   const tokenCookie = cookieStore.get("admin_token");
 
@@ -84,5 +91,6 @@ export async function DELETE() {
   }
 
   cookieStore.delete("admin_token");
+  logResponse("/api/auth", "DELETE", 200);
   return NextResponse.json({ success: true });
 }

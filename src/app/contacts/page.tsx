@@ -73,8 +73,8 @@ export default function ContactsPage() {
             {/* Map */}
             <div className="bg-[#0f2133] border border-[#1e3a51]/30 rounded-xl overflow-hidden min-h-[400px]">
               <LazyMap
-                src="https://yandex.ru/map-widget/v1/?um=constructor%3A7f6c8e3a0f1d4b2e8c9a5d3f7e1b4a6c&source=constructor"
-                title="Карта — МКА Семенцов и Партнёры"
+                src="https://yandex.ru/map-widget/v1/?ll=37.613713%2C55.763316&z=17&pt=37.613713%2C55.763316%2Cpm2rdm&lang=ru_RU"
+                title="Офис МКА «Семенцов и Партнёры» — Большая Дмитровка 20/5, Москва"
               />
             </div>
           </div>

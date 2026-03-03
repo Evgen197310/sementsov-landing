@@ -36,58 +36,83 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#071420] via-[#0b1c2b] to-[#132d44]" />
+      <section className="relative min-h-[85vh] overflow-hidden" style={{ background: "linear-gradient(135deg, #071420 0%, #0b1c2b 50%, #132d44 100%)" }}>
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a962' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }} />
 
-        {/* Photo — right side, all breakpoints */}
-        <div className="absolute right-0 top-0 bottom-0 w-[45%] sm:w-[40%] lg:w-[45%]">
-          <Image
-            src="/team/sementsov.webp"
-            alt="Семенцов Владимир Алексеевич"
-            fill
-            sizes="(min-width: 1024px) 45vw, 40vw"
-            className="object-cover object-top"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0b1c2b] via-[#0b1c2b]/70 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0b1c2b] via-transparent to-transparent" />
-        </div>
+        <div className="relative container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[85vh] py-16 md:py-24">
+            {/* Text Content */}
+            <div>
+              {/* Mobile photo — compact circular */}
+              <div className="lg:hidden mb-6 flex items-center gap-4">
+                <div className="relative w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0">
+                  <Image
+                    src="/team/sementsov.webp"
+                    alt="Семенцов Владимир Алексеевич"
+                    width={96}
+                    height={96}
+                    className="w-full h-full object-cover object-top rounded-full border-2 border-[#c9a962]/50"
+                    priority
+                  />
+                </div>
+                <div>
+                  <div className="text-base sm:text-lg font-['Playfair_Display'] font-semibold text-[#f5f3f0]">
+                    Владимир Семенцов
+                  </div>
+                  <div className="text-xs sm:text-sm text-[#c9a962]">
+                    Председатель Президиума
+                  </div>
+                </div>
+              </div>
 
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-xl lg:max-w-2xl">
-            <div className="inline-flex items-center gap-2 bg-[#c9a962]/10 border border-[#c9a962]/20 rounded-full px-4 py-1.5 mb-8">
-              <span className="w-2 h-2 bg-[#c9a962] rounded-full animate-pulse" />
-              <span className="text-[#c9a962] text-xs font-medium tracking-wider uppercase">
-                Работаем с 1997 года
-              </span>
+              <div className="inline-flex items-center gap-2 bg-[#c9a962]/10 border border-[#c9a962]/20 rounded-full px-4 py-1.5 mb-8">
+                <span className="w-2 h-2 bg-[#c9a962] rounded-full animate-pulse" />
+                <span className="text-[#c9a962] text-xs font-medium tracking-wider uppercase">
+                  Работаем с 1997 года
+                </span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-['Playfair_Display'] font-bold text-[#f5f3f0] leading-tight mb-6">
+                Московская коллегия адвокатов{" "}
+                <span className="text-[#c9a962]">«Семенцов и&nbsp;Партнёры»</span>
+              </h1>
+              <p className="text-base sm:text-lg lg:text-xl text-[#8b9caa] mb-10 max-w-xl leading-relaxed">
+                Защищаем интересы граждан и бизнеса в судах всех инстанций —
+                от районного суда до Верховного суда РФ и Европейского суда по правам человека
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Link href="/contacts" className="btn-primary inline-flex items-center gap-2">
+                  Записаться на консультацию
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link href="/about" className="btn-outline inline-flex items-center gap-2">
+                  О коллегии
+                </Link>
+              </div>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-6xl font-['Playfair_Display'] font-bold text-[#f5f3f0] leading-tight mb-6">
-              Московская коллегия адвокатов{" "}
-              <span className="text-[#c9a962]">«Семенцов и&nbsp;Партнёры»</span>
-            </h1>
-            <p className="text-base sm:text-lg lg:text-xl text-[#8b9caa] mb-10 max-w-lg lg:max-w-2xl leading-relaxed">
-              Защищаем интересы граждан и бизнеса в судах всех инстанций —
-              от районного суда до Верховного суда РФ и Европейского суда по правам человека
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link href="/contacts" className="btn-primary inline-flex items-center gap-2">
-                Записаться на консультацию
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link href="/about" className="btn-outline inline-flex items-center gap-2">
-                О коллегии
-              </Link>
+
+            {/* Photo — desktop, clean without gradients */}
+            <div className="relative hidden lg:block">
+              <div className="relative w-full max-w-md mx-auto">
+                <div className="relative overflow-hidden rounded-sm">
+                  <Image
+                    src="/team/sementsov.webp"
+                    alt="Семенцов Владимир Алексеевич"
+                    width={400}
+                    height={500}
+                    className="w-full h-auto object-cover"
+                    priority
+                  />
+                  {/* Credentials badge */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-[#0b1c2b]/80 backdrop-blur-sm p-4 border-t border-[#1e3a51]/50">
+                    <p className="text-lg font-['Playfair_Display'] font-semibold text-[#f5f3f0]">
+                      Владимир Семенцов
+                    </p>
+                    <p className="text-sm text-[#c9a962]">Председатель Президиума</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Name overlay — bottom */}
-        <div className="absolute bottom-8 right-4 sm:right-8 lg:right-12 z-10 text-right">
-          <p className="text-[#f5f3f0] font-['Playfair_Display'] font-semibold text-sm sm:text-base lg:text-lg">
-            Владимир Семенцов
-          </p>
-          <p className="text-[#c9a962] text-xs sm:text-sm">Председатель Президиума</p>
         </div>
       </section>
 

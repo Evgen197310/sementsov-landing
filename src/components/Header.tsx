@@ -112,7 +112,6 @@ export function Header() {
               </div>
             </Dropdown>
 
-            <NavLink href="/prices">Стоимость</NavLink>
             <NavLink href="/team">Команда</NavLink>
             <NavLink href="/practice">Практика</NavLink>
 
@@ -166,7 +165,6 @@ export function Header() {
                 <MobileLink href="/services/legal" onClick={() => setMobileOpen(false)} sub>Юридическим лицам</MobileLink>
                 <MobileLink href="/services/legal/mediation" onClick={() => setMobileOpen(false)} sub>Медиация</MobileLink>
               </MobileSection>
-              <MobileLink href="/prices" onClick={() => setMobileOpen(false)}>Стоимость</MobileLink>
               <MobileLink href="/team" onClick={() => setMobileOpen(false)}>Команда</MobileLink>
               <MobileLink href="/practice" onClick={() => setMobileOpen(false)}>Практика</MobileLink>
               <MobileSection title="Медиа">

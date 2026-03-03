@@ -3,6 +3,16 @@
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, X } from "lucide-react";
 
+const cyr: Record<string, string> = {
+  а:"a",б:"b",в:"v",г:"g",д:"d",е:"e",ё:"yo",ж:"zh",з:"z",и:"i",й:"y",к:"k",
+  л:"l",м:"m",н:"n",о:"o",п:"p",р:"r",с:"s",т:"t",у:"u",ф:"f",х:"kh",ц:"ts",
+  ч:"ch",ш:"sh",щ:"shch",ъ:"",ы:"y",ь:"",э:"e",ю:"yu",я:"ya",
+};
+function toSlug(s: string) {
+  return s.toLowerCase().split("").map(c => cyr[c] ?? c).join("")
+    .replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "").replace(/-+/g, "-").replace(/^-|-$/g, "");
+}
+
 interface TeamMember {
   id: number;
   name: string;
@@ -94,7 +104,7 @@ export default function AdminTeamPage() {
               </button>
             </div>
             <div className="space-y-4">
-              <Field label="Имя" value={editing.name || ""} onChange={(v) => setEditing({ ...editing, name: v, slug: editing.slug || v.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "") })} />
+              <Field label="Имя" value={editing.name || ""} onChange={(v) => setEditing({ ...editing, name: v, slug: editing.id ? editing.slug : toSlug(v) })} />
               <Field label="Slug" value={editing.slug || ""} onChange={(v) => setEditing({ ...editing, slug: v })} />
               <Field label="Должность" value={editing.position || ""} onChange={(v) => setEditing({ ...editing, position: v })} />
               <Field label="Специализация" value={editing.specialization || ""} onChange={(v) => setEditing({ ...editing, specialization: v })} />

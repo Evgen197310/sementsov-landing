@@ -163,7 +163,6 @@ export function Footer() {
               <Link href="/about" className="hover:text-[#8b9caa] transition-colors">О коллегии</Link>
               <Link href="/services/individuals" className="hover:text-[#8b9caa] transition-colors">Услуги физ. лицам</Link>
               <Link href="/services/legal" className="hover:text-[#8b9caa] transition-colors">Услуги юр. лицам</Link>
-              <Link href="/prices" className="hover:text-[#8b9caa] transition-colors">Стоимость</Link>
               <Link href="/team" className="hover:text-[#8b9caa] transition-colors">Команда</Link>
               <Link href="/practice" className="hover:text-[#8b9caa] transition-colors">Практика</Link>
               <Link href="/media/news" className="hover:text-[#8b9caa] transition-colors">Новости</Link>

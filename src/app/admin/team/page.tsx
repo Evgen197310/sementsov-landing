@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, X } from "lucide-react";
+import PhotoUpload from "@/components/admin/PhotoUpload";
 
 const cyr: Record<string, string> = {
   а:"a",б:"b",в:"v",г:"g",д:"d",е:"e",ё:"yo",ж:"zh",з:"z",и:"i",й:"y",к:"k",
@@ -118,7 +119,7 @@ export default function AdminTeamPage() {
               <Field label="Slug" value={editing.slug || ""} onChange={(v) => setEditing({ ...editing, slug: v })} />
               <Field label="Должность" value={editing.position || ""} onChange={(v) => setEditing({ ...editing, position: v })} />
               <Field label="Специализация" value={editing.specialization || ""} onChange={(v) => setEditing({ ...editing, specialization: v })} />
-              <Field label="Фото (URL)" value={editing.photo || ""} onChange={(v) => setEditing({ ...editing, photo: v })} />
+              <PhotoUpload value={editing.photo || ""} onChange={(v) => setEditing({ ...editing, photo: v })} />
               <Field label="Образование" value={editing.education || ""} onChange={(v) => setEditing({ ...editing, education: v })} />
               <TextareaField label="Опыт работы" value={editing.experience || ""} onChange={(v) => setEditing({ ...editing, experience: v })} />
               <TextareaField label="Биография" value={editing.bio || ""} onChange={(v) => setEditing({ ...editing, bio: v })} />

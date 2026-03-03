@@ -30,10 +30,12 @@ COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
+COPY --from=builder /app/node_modules/sharp ./node_modules/sharp
+COPY --from=builder /app/node_modules/@img ./node_modules/@img
 COPY docker-entrypoint.sh ./
 
 RUN chmod +x docker-entrypoint.sh
-RUN mkdir -p /app/data
+RUN mkdir -p /app/data /app/data/uploads/team
 VOLUME ["/app/data"]
 
 EXPOSE 3000

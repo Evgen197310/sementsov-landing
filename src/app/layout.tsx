@@ -3,6 +3,7 @@ import { Playfair_Display, Open_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { BackToTop } from "@/components/BackToTop";
 
 const playfair = Playfair_Display({
   subsets: ["latin", "cyrillic"],
@@ -83,13 +84,15 @@ export default function RootLayout({
   return (
     <html lang="ru" className={`${playfair.variable} ${openSans.variable}`}>
       <body>
+        <a href="#main" className="skip-to-content">Перейти к содержимому</a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <Header />
-        <main className="min-h-screen">{children}</main>
+        <main id="main" className="min-h-screen">{children}</main>
         <Footer />
+        <BackToTop />
       </body>
     </html>
   );

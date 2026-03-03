@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { LazyMap } from "@/components/LazyMap";
 
 export const metadata = { title: "Контакты — МКА «Семенцов и Партнёры»" };
 
@@ -71,12 +72,8 @@ export default function ContactsPage() {
 
             {/* Map */}
             <div className="bg-[#0f2133] border border-[#1e3a51]/30 rounded-xl overflow-hidden min-h-[400px]">
-              <iframe
+              <LazyMap
                 src="https://yandex.ru/map-widget/v1/?um=constructor%3A7f6c8e3a0f1d4b2e8c9a5d3f7e1b4a6c&source=constructor"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                style={{ minHeight: 400, border: 0 }}
                 title="Карта — МКА Семенцов и Партнёры"
               />
             </div>

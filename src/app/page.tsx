@@ -12,6 +12,8 @@ import {
   Globe,
   Clock,
 } from "lucide-react";
+import { AnimateOnScroll } from "@/components/AnimateOnScroll";
+import { CountUp } from "@/components/CountUp";
 
 export const revalidate = 3600;
 
@@ -110,12 +112,12 @@ export default async function HomePage() {
       {/* Stats */}
       <section className="relative -mt-16 z-20 pb-8">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
+          <AnimateOnScroll animation="fade-up" className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto aos-stagger">
             {[
-              { icon: Clock, value: "25+", label: "лет опыта" },
-              { icon: Award, value: "500+", label: "успешных дел" },
-              { icon: Globe, value: "ЕСПЧ", label: "международная практика" },
-              { icon: Users, value: "11", label: "адвокатов" },
+              { icon: Clock, num: 25, suffix: "+", label: "лет опыта" },
+              { icon: Award, num: 500, suffix: "+", label: "успешных дел" },
+              { icon: Globe, text: "ЕСПЧ", label: "международная практика" },
+              { icon: Users, num: 11, suffix: "", label: "адвокатов" },
             ].map((stat, i) => (
               <div
                 key={i}
@@ -123,19 +125,23 @@ export default async function HomePage() {
               >
                 <stat.icon className="w-6 h-6 text-[#c9a962] mx-auto mb-2" />
                 <div className="text-2xl md:text-3xl font-['Playfair_Display'] font-bold text-[#f5f3f0]">
-                  {stat.value}
+                  {stat.num != null ? (
+                    <CountUp end={stat.num} suffix={stat.suffix} />
+                  ) : (
+                    stat.text
+                  )}
                 </div>
                 <div className="text-xs text-[#8b9caa] mt-1">{stat.label}</div>
               </div>
             ))}
-          </div>
+          </AnimateOnScroll>
         </div>
       </section>
 
       {/* About preview */}
       <section className="section-padding">
         <div className="container mx-auto max-w-5xl">
-          <div className="text-center mb-12">
+          <AnimateOnScroll animation="fade-up" className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-['Playfair_Display'] font-semibold text-[#f5f3f0] mb-4">
               О коллегии
             </h2>
@@ -153,21 +159,21 @@ export default async function HomePage() {
             <Link href="/about" className="inline-flex items-center gap-2 text-[#c9a962] hover:text-[#ddc488] transition-colors mt-6 text-sm font-medium">
               Подробнее о коллегии <ArrowRight className="w-4 h-4" />
             </Link>
-          </div>
+          </AnimateOnScroll>
         </div>
       </section>
 
       {/* Services */}
       <section className="section-padding bg-[#071420]">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
+          <AnimateOnScroll animation="fade-up" className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-['Playfair_Display'] font-semibold text-[#f5f3f0] mb-4">
               Наша экспертиза
             </h2>
             <div className="decorative-line mx-auto" />
-          </div>
+          </AnimateOnScroll>
 
-          <div className="grid md:grid-cols-2 gap-8 mb-8">
+          <AnimateOnScroll animation="fade-up" delay={100} className="grid md:grid-cols-2 gap-8 mb-8">
             {/* Individuals */}
             <div>
               <div className="flex items-center gap-3 mb-6">
@@ -231,14 +237,14 @@ export default async function HomePage() {
                 Все услуги юр. лицам <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-          </div>
+          </AnimateOnScroll>
         </div>
       </section>
 
       {/* Team */}
       <section className="section-padding">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
+          <AnimateOnScroll animation="fade-up" className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-['Playfair_Display'] font-semibold text-[#f5f3f0] mb-4">
               Наша команда
             </h2>
@@ -246,8 +252,8 @@ export default async function HomePage() {
             <p className="text-[#8b9caa] max-w-2xl mx-auto">
               Опытные адвокаты с многолетним стажем в органах прокуратуры, следствия и суда
             </p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          </AnimateOnScroll>
+          <AnimateOnScroll animation="fade-up" delay={100} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 aos-stagger">
             {team.map((member) => (
               <Link
                 key={member.id}
@@ -274,7 +280,7 @@ export default async function HomePage() {
                 )}
               </Link>
             ))}
-          </div>
+          </AnimateOnScroll>
           <div className="text-center mt-8">
             <Link href="/team" className="inline-flex items-center gap-2 text-[#c9a962] hover:text-[#ddc488] transition-colors text-sm font-medium">
               Вся команда <ArrowRight className="w-4 h-4" />
@@ -298,7 +304,7 @@ export default async function HomePage() {
                 Все публикации <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-            <div className="grid md:grid-cols-3 gap-6">
+            <AnimateOnScroll animation="fade-up" delay={100} className="grid md:grid-cols-3 gap-6 aos-stagger">
               {news.map((article) => (
                 <Link
                   key={article.id}
@@ -316,14 +322,14 @@ export default async function HomePage() {
                   )}
                 </Link>
               ))}
-            </div>
+            </AnimateOnScroll>
           </div>
         </section>
       )}
 
       {/* CTA */}
       <section className="section-padding">
-        <div className="container mx-auto max-w-4xl text-center">
+        <AnimateOnScroll animation="fade-up" className="container mx-auto max-w-4xl text-center">
           <Landmark className="w-10 h-10 text-[#c9a962] mx-auto mb-6" />
           <h2 className="text-3xl md:text-4xl font-['Playfair_Display'] font-semibold text-[#f5f3f0] mb-4">
             Нужна юридическая помощь?
@@ -341,7 +347,7 @@ export default async function HomePage() {
               Оставить заявку
             </Link>
           </div>
-        </div>
+        </AnimateOnScroll>
       </section>
     </>
   );

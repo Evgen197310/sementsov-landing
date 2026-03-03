@@ -152,8 +152,11 @@ export function Header() {
         </div>
 
         {/* Mobile menu */}
-        {mobileOpen && (
-          <div className="lg:hidden bg-[#0b1c2b] border-t border-[#1e3a51]/30 max-h-[80vh] overflow-y-auto">
+        <div
+          className={`lg:hidden bg-[#0b1c2b] border-t border-[#1e3a51]/30 overflow-hidden transition-all duration-300 ease-in-out ${
+            mobileOpen ? "max-h-[80vh] opacity-100 overflow-y-auto" : "max-h-0 opacity-0"
+          }`}
+        >
             <div className="container mx-auto px-4 py-4 space-y-1">
               <MobileLink href="/" onClick={() => setMobileOpen(false)}>Главная</MobileLink>
               <MobileLink href="/about" onClick={() => setMobileOpen(false)}>О коллегии</MobileLink>
@@ -182,8 +185,7 @@ export function Header() {
                 </a>
               </div>
             </div>
-          </div>
-        )}
+        </div>
       </header>
     </>
   );

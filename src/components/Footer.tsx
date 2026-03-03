@@ -1,15 +1,64 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Link from "next/link";
 import { Phone, Mail, MapPin, Send } from "lucide-react";
 
 export function Footer() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errors, setErrors] = useState<{ email?: string; phone?: string }>({});
+
+  const formatPhone = useCallback((value: string) => {
+    const digits = value.replace(/\D/g, "");
+    const d = digits.startsWith("7") ? digits : digits.startsWith("8") ? "7" + digits.slice(1) : "7" + digits;
+    let result = "+7";
+    if (d.length > 1) result += " (" + d.slice(1, 4);
+    if (d.length >= 4) result += ") ";
+    if (d.length > 4) result += d.slice(4, 7);
+    if (d.length > 7) result += "-" + d.slice(7, 9);
+    if (d.length > 9) result += "-" + d.slice(9, 11);
+    return result;
+  }, []);
+
+  const handlePhoneChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
+    if (raw === "" || raw === "+") {
+      setForm(f => ({ ...f, phone: "" }));
+      setErrors(er => ({ ...er, phone: undefined }));
+      return;
+    }
+    const formatted = formatPhone(raw);
+    setForm(f => ({ ...f, phone: formatted }));
+    const digitCount = formatted.replace(/\D/g, "").length;
+    if (digitCount > 0 && digitCount < 11) {
+      setErrors(er => ({ ...er, phone: "Введите полный номер" }));
+    } else {
+      setErrors(er => ({ ...er, phone: undefined }));
+    }
+  }, [formatPhone]);
+
+  const validateEmail = useCallback((email: string) => {
+    if (!email) return undefined;
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    return re.test(email) ? undefined : "Некорректный email";
+  }, []);
+
+  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setForm(f => ({ ...f, email: val }));
+    setErrors(er => ({ ...er, email: validateEmail(val) }));
+  }, [validateEmail]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const emailErr = validateEmail(form.email);
+    const phoneDigits = form.phone.replace(/\D/g, "").length;
+    const phoneErr = form.phone && phoneDigits < 11 ? "Введите полный номер" : undefined;
+    if (emailErr || phoneErr) {
+      setErrors({ email: emailErr, phone: phoneErr });
+      return;
+    }
     setStatus("sending");
     try {
       const res = await fetch("/api/contact", {
@@ -51,23 +100,29 @@ export function Footer() {
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   className="bg-[#0f2133] border border-[#1e3a51]/50 rounded-lg px-4 py-3 text-sm text-[#f5f3f0] placeholder:text-[#5a6f80] focus:border-[#c9a962] focus:outline-none transition-colors"
                 />
-                <input
-                  type="email"
-                  placeholder="Ваш Email *"
-                  required
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="bg-[#0f2133] border border-[#1e3a51]/50 rounded-lg px-4 py-3 text-sm text-[#f5f3f0] placeholder:text-[#5a6f80] focus:border-[#c9a962] focus:outline-none transition-colors"
-                />
+                <div>
+                  <input
+                    type="email"
+                    placeholder="Ваш Email *"
+                    required
+                    value={form.email}
+                    onChange={handleEmailChange}
+                    className={`w-full bg-[#0f2133] border ${errors.email ? "border-red-500" : "border-[#1e3a51]/50"} rounded-lg px-4 py-3 text-sm text-[#f5f3f0] placeholder:text-[#5a6f80] focus:border-[#c9a962] focus:outline-none transition-colors`}
+                  />
+                  {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
+                </div>
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
-                <input
-                  type="tel"
-                  placeholder="Ваш телефон"
-                  value={form.phone}
-                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  className="bg-[#0f2133] border border-[#1e3a51]/50 rounded-lg px-4 py-3 text-sm text-[#f5f3f0] placeholder:text-[#5a6f80] focus:border-[#c9a962] focus:outline-none transition-colors"
-                />
+                <div>
+                  <input
+                    type="tel"
+                    placeholder="+7 (___) ___-__-__"
+                    value={form.phone}
+                    onChange={handlePhoneChange}
+                    className={`w-full bg-[#0f2133] border ${errors.phone ? "border-red-500" : "border-[#1e3a51]/50"} rounded-lg px-4 py-3 text-sm text-[#f5f3f0] placeholder:text-[#5a6f80] focus:border-[#c9a962] focus:outline-none transition-colors`}
+                  />
+                  {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
+                </div>
                 <select
                   value={form.service}
                   onChange={(e) => setForm({ ...form, service: e.target.value })}

@@ -14,18 +14,20 @@ import {
 } from "lucide-react";
 
 export default async function HomePage() {
-  const team = await prisma.teamMember.findMany({ orderBy: { order: "asc" }, take: 4 });
-  const news = await prisma.mediaArticle.findMany({ orderBy: { createdAt: "desc" }, take: 3 });
-  const servicesInd = await prisma.service.findMany({
-    where: { category: { slug: "individuals" } },
-    orderBy: { order: "asc" },
-    take: 4,
-  });
-  const servicesLegal = await prisma.service.findMany({
-    where: { category: { slug: "legal" } },
-    orderBy: { order: "asc" },
-    take: 4,
-  });
+  const [team, news, servicesInd, servicesLegal] = await Promise.all([
+    prisma.teamMember.findMany({ orderBy: { order: "asc" }, take: 4 }),
+    prisma.mediaArticle.findMany({ orderBy: { createdAt: "desc" }, take: 3 }),
+    prisma.service.findMany({
+      where: { category: { slug: "individuals" } },
+      orderBy: { order: "asc" },
+      take: 4,
+    }),
+    prisma.service.findMany({
+      where: { category: { slug: "legal" } },
+      orderBy: { order: "asc" },
+      take: 4,
+    }),
+  ]);
 
   return (
     <>
@@ -60,6 +62,25 @@ export default async function HomePage() {
                 </Link>
               </div>
             </div>
+            {/* Mobile: compact photo */}
+            <div className="flex items-center gap-4 mt-8 lg:hidden">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-[#c9a962]/30 flex-shrink-0">
+                <Image
+                  src="/team/sementsov.webp"
+                  alt="Семенцов Владимир Алексеевич"
+                  width={96}
+                  height={96}
+                  sizes="(min-width: 640px) 96px, 80px"
+                  className="w-full h-full object-cover"
+                  priority
+                />
+              </div>
+              <div>
+                <p className="text-[#f5f3f0] font-['Playfair_Display'] font-semibold">Владимир Семенцов</p>
+                <p className="text-[#c9a962] text-sm">Председатель Президиума</p>
+              </div>
+            </div>
+            {/* Desktop: full photo */}
             <div className="hidden lg:block">
               <div className="relative">
                 <div className="absolute inset-0 bg-[#c9a962]/10 rounded-3xl blur-3xl" />
@@ -69,6 +90,7 @@ export default async function HomePage() {
                     alt="Семенцов Владимир Алексеевич"
                     width={500}
                     height={600}
+                    sizes="(min-width: 1024px) 500px, 0px"
                     className="w-full h-auto"
                     priority
                   />
@@ -232,7 +254,7 @@ export default async function HomePage() {
               >
                 {member.photo ? (
                   <div className="w-16 h-16 rounded-full overflow-hidden mb-4">
-                    <Image src={member.photo} alt={member.name} width={64} height={64} className="w-full h-full object-cover" />
+                    <Image src={member.photo} alt={member.name} width={64} height={64} sizes="64px" className="w-full h-full object-cover" />
                   </div>
                 ) : (
                   <div className="w-16 h-16 bg-[#1e3a51] rounded-full flex items-center justify-center mb-4">

@@ -33,7 +33,7 @@ export default async function TeamPage() {
               >
                 {member.photo ? (
                   <div className="w-20 h-20 rounded-full overflow-hidden mb-5">
-                    <Image src={member.photo} alt={member.name} width={80} height={80} className="w-full h-full object-cover" />
+                    <Image src={member.photo} alt={member.name} width={80} height={80} sizes="80px" className="w-full h-full object-cover" />
                   </div>
                 ) : (
                   <div className="w-20 h-20 bg-[#1e3a51] rounded-full flex items-center justify-center mb-5">

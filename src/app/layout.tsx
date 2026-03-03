@@ -1,7 +1,22 @@
 import type { Metadata } from "next";
+import { Playfair_Display, Open_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+
+const playfair = Playfair_Display({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-playfair",
+});
+
+const openSans = Open_Sans({
+  subsets: ["latin", "cyrillic"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-open-sans",
+});
 
 export const metadata: Metadata = {
   title: "МКА «Семенцов и Партнёры» — Коллегия адвокатов в Москве",
@@ -15,13 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ru">
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="ru" className={`${playfair.variable} ${openSans.variable}`}>
       <body>
         <Header />
         <main className="min-h-screen">{children}</main>

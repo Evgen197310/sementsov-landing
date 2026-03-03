@@ -26,7 +26,7 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ slu
           <div className="flex flex-col md:flex-row gap-8 items-start">
             {member.photo ? (
               <div className="w-24 h-24 rounded-full overflow-hidden flex-shrink-0">
-                <Image src={member.photo} alt={member.name} width={96} height={96} className="w-full h-full object-cover" />
+                <Image src={member.photo} alt={member.name} width={96} height={96} sizes="96px" className="w-full h-full object-cover" />
               </div>
             ) : (
               <div className="w-24 h-24 bg-[#1e3a51] rounded-full flex items-center justify-center flex-shrink-0">

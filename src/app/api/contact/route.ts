@@ -1,6 +1,11 @@
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 
+export async function GET() {
+  const messages = await prisma.contactMessage.findMany({ orderBy: { createdAt: "desc" } });
+  return NextResponse.json(messages);
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();

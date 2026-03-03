@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/db";
+import { Globe } from "lucide-react";
 
 export const metadata = { title: "Наша команда — МКА «Семенцов и Партнёры»" };
 
@@ -50,6 +51,12 @@ export default async function TeamPage() {
                 )}
                 {member.bio && (
                   <p className="text-[#8b9caa] text-sm mt-3 line-clamp-3">{member.bio}</p>
+                )}
+                {member.website && (
+                  <p className="text-[#5a6f80] text-xs mt-3 flex items-center gap-1.5">
+                    <Globe className="w-3.5 h-3.5 text-[#c9a962]" />
+                    <span>{member.website.replace(/^https?:\/\//, "").replace(/\/$/, "")}</span>
+                  </p>
                 )}
               </Link>
             ))}

@@ -5,16 +5,11 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   try {
     const { id } = await params;
     const data = await request.json();
-    const { faqs, category, ...rest } = data;
-    await prisma.serviceFaq.deleteMany({ where: { serviceId: Number(id) } });
-    const service = await prisma.service.update({
+    const msg = await prisma.contactMessage.update({
       where: { id: Number(id) },
-      data: {
-        ...rest,
-        faqs: faqs?.length ? { create: faqs.map((f: { question: string; answer: string; order?: number }, i: number) => ({ question: f.question, answer: f.answer, order: f.order ?? i })) } : undefined,
-      },
+      data: { read: data.read ?? true },
     });
-    return NextResponse.json(service);
+    return NextResponse.json(msg);
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });
   }
@@ -23,7 +18,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 export async function DELETE(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    await prisma.service.delete({ where: { id: Number(id) } });
+    await prisma.contactMessage.delete({ where: { id: Number(id) } });
     return NextResponse.json({ success: true });
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });

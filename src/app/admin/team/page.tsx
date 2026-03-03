@@ -12,11 +12,13 @@ interface TeamMember {
   bio: string;
   education: string;
   experience: string;
+  photo: string;
+  website: string;
   order: number;
 }
 
 const empty: Omit<TeamMember, "id"> = {
-  name: "", slug: "", position: "", specialization: "", bio: "", education: "", experience: "", order: 0,
+  name: "", slug: "", position: "", specialization: "", bio: "", education: "", experience: "", photo: "", website: "", order: 0,
 };
 
 export default function AdminTeamPage() {
@@ -96,9 +98,11 @@ export default function AdminTeamPage() {
               <Field label="Slug" value={editing.slug || ""} onChange={(v) => setEditing({ ...editing, slug: v })} />
               <Field label="Должность" value={editing.position || ""} onChange={(v) => setEditing({ ...editing, position: v })} />
               <Field label="Специализация" value={editing.specialization || ""} onChange={(v) => setEditing({ ...editing, specialization: v })} />
+              <Field label="Фото (URL)" value={editing.photo || ""} onChange={(v) => setEditing({ ...editing, photo: v })} />
               <Field label="Образование" value={editing.education || ""} onChange={(v) => setEditing({ ...editing, education: v })} />
               <TextareaField label="Опыт работы" value={editing.experience || ""} onChange={(v) => setEditing({ ...editing, experience: v })} />
               <TextareaField label="Биография" value={editing.bio || ""} onChange={(v) => setEditing({ ...editing, bio: v })} />
+              <Field label="Личный сайт (URL)" value={editing.website || ""} onChange={(v) => setEditing({ ...editing, website: v })} />
               <Field label="Порядок" value={String(editing.order || 0)} onChange={(v) => setEditing({ ...editing, order: Number(v) })} type="number" />
               <button onClick={save} className="w-full bg-[#c9a962] text-[#0b1c2b] py-3 rounded-lg font-medium hover:bg-[#ddc488] transition-colors">
                 Сохранить

@@ -10,6 +10,7 @@ interface Article {
   content: string;
   excerpt: string;
   section: string;
+  attachments: string;
 }
 
 export default function AdminNewsPage() {
@@ -42,7 +43,7 @@ export default function AdminNewsPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-['Playfair_Display'] font-semibold text-[#f5f3f0]">Новости и законодательство</h1>
-        <button onClick={() => setEditing({ title: "", slug: "", content: "", excerpt: "", section: "news" })} className="flex items-center gap-2 bg-[#c9a962] text-[#0b1c2b] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#ddc488] transition-colors">
+        <button onClick={() => setEditing({ title: "", slug: "", content: "", excerpt: "", section: "news", attachments: "" })} className="flex items-center gap-2 bg-[#c9a962] text-[#0b1c2b] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#ddc488] transition-colors">
           <Plus className="w-4 h-4" /> Добавить
         </button>
       </div>
@@ -83,6 +84,7 @@ export default function AdminNewsPage() {
               </div>
               <Inp label="Превью" value={editing.excerpt || ""} onChange={(v) => setEditing({ ...editing, excerpt: v })} />
               <Txt label="Содержимое" value={editing.content || ""} onChange={(v) => setEditing({ ...editing, content: v })} />
+              <Inp label="Вложения (URL через запятую)" value={editing.attachments || ""} onChange={(v) => setEditing({ ...editing, attachments: v })} />
               <button onClick={save} className="w-full bg-[#c9a962] text-[#0b1c2b] py-3 rounded-lg font-medium hover:bg-[#ddc488] transition-colors">Сохранить</button>
             </div>
           </div>

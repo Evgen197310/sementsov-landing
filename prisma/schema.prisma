@@ -23,6 +23,7 @@ model TeamMember {
   education      String @default("")
   experience     String @default("")
   photo          String @default("")
+  website        String @default("")
   order          Int    @default(0)
 }
 

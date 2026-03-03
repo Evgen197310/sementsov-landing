@@ -5,16 +5,11 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   try {
     const { id } = await params;
     const data = await request.json();
-    const { faqs, category, ...rest } = data;
-    await prisma.serviceFaq.deleteMany({ where: { serviceId: Number(id) } });
-    const service = await prisma.service.update({
+    const doc = await prisma.document.update({
       where: { id: Number(id) },
-      data: {
-        ...rest,
-        faqs: faqs?.length ? { create: faqs.map((f: { question: string; answer: string; order?: number }, i: number) => ({ question: f.question, answer: f.answer, order: f.order ?? i })) } : undefined,
-      },
+      data: { title: data.title, slug: data.slug, content: data.content || "", fileUrl: data.fileUrl || "" },
     });
-    return NextResponse.json(service);
+    return NextResponse.json(doc);
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });
   }
@@ -23,7 +18,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 export async function DELETE(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    await prisma.service.delete({ where: { id: Number(id) } });
+    await prisma.document.delete({ where: { id: Number(id) } });
     return NextResponse.json({ success: true });
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });

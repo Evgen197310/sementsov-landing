@@ -1,9 +1,9 @@
 import { prisma } from "@/lib/db";
-import { Users, Briefcase, Newspaper, Tv, Scale, MessageSquare, FileText, Handshake } from "lucide-react";
+import { Users, Briefcase, Newspaper, Tv, Scale, MessageSquare, FileText, Handshake, BookOpen } from "lucide-react";
 import Link from "next/link";
 
 export default async function AdminDashboard() {
-  const [teamCount, servicesCount, newsCount, mediaCount, practiceCount, messagesCount, docsCount, partnersCount] = await Promise.all([
+  const [teamCount, servicesCount, newsCount, mediaCount, practiceCount, messagesCount, docsCount, partnersCount, pubsCount] = await Promise.all([
     prisma.teamMember.count(),
     prisma.service.count(),
     prisma.newsArticle.count(),
@@ -12,6 +12,7 @@ export default async function AdminDashboard() {
     prisma.contactMessage.count(),
     prisma.document.count(),
     prisma.partner.count(),
+    prisma.publication.count(),
   ]);
 
   const unreadMessages = await prisma.contactMessage.count({ where: { read: false } });
@@ -24,6 +25,7 @@ export default async function AdminDashboard() {
     { label: "Практика", value: practiceCount, icon: Scale, href: "/admin/practice", color: "text-orange-400" },
     { label: "Партнёры", value: partnersCount, icon: Handshake, href: "/admin/partners", color: "text-cyan-400" },
     { label: "Документы", value: docsCount, icon: FileText, href: "/admin/documents", color: "text-pink-400" },
+    { label: "Публикации", value: pubsCount, icon: BookOpen, href: "/admin/publications", color: "text-indigo-400" },
     { label: "Заявки", value: messagesCount, icon: MessageSquare, href: "/admin/messages", color: "text-red-400", badge: unreadMessages > 0 ? unreadMessages : undefined },
   ];
 

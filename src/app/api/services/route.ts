@@ -5,14 +5,18 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const category = searchParams.get("category");
   const where = category ? { category: { slug: category } } : {};
-  const services = await prisma.service.findMany({ where, orderBy: { order: "asc" }, include: { category: true } });
-  return NextResponse.json(services);
+  const services = await prisma.service.findMany({ where, orderBy: { order: "asc" }, include: { category: true, faqs: { orderBy: { order: "asc" } } } });
+  const categories = await prisma.serviceCategory.findMany({ orderBy: { id: "asc" } });
+  return NextResponse.json({ services, categories });
 }
 
 export async function POST(request: Request) {
   try {
     const data = await request.json();
-    const service = await prisma.service.create({ data });
+    const { faqs, category, ...rest } = data;
+    const service = await prisma.service.create({
+      data: { ...rest, faqs: faqs?.length ? { create: faqs.map((f: { question: string; answer: string; order?: number }, i: number) => ({ question: f.question, answer: f.answer, order: f.order ?? i })) } : undefined },
+    });
     return NextResponse.json(service);
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });

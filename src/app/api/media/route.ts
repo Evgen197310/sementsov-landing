@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
+import { sanitizeUrl } from "@/lib/validation";
 
 export async function GET() {
   const categories = await prisma.mediaCategory.findMany({ include: { articles: { orderBy: { createdAt: "desc" } } }, orderBy: { id: "asc" } });
@@ -20,7 +21,7 @@ export async function POST(request: Request) {
         slug: data.slug,
         content: data.content || "",
         excerpt: data.excerpt || "",
-        source: data.source || "",
+        source: sanitizeUrl(data.source),
         tags: data.tags || "",
         categoryId: data.categoryId || null,
       },

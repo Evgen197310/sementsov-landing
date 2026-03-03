@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
+import { sanitizeUrl } from "@/lib/validation";
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -19,7 +20,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         slug: data.slug,
         content: data.content || "",
         excerpt: data.excerpt || "",
-        source: data.source || "",
+        source: sanitizeUrl(data.source),
         tags: data.tags || "",
         categoryId: data.categoryId || null,
       },

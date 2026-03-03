@@ -3,11 +3,21 @@ import { NextResponse } from "next/server";
 import { compareSync } from "bcryptjs";
 import { cookies } from "next/headers";
 import { randomUUID } from "crypto";
+import { rateLimit } from "@/lib/rate-limit";
 
 const SESSION_MAX_AGE = 60 * 60 * 24 * 7; // 7 days in seconds
 
 export async function POST(request: Request) {
   try {
+    const ip = request.headers.get("x-forwarded-for") || "unknown";
+    const rl = rateLimit(`auth:${ip}`, { maxRequests: 5, windowMs: 60_000 });
+    if (!rl.ok) {
+      return NextResponse.json(
+        { error: "Слишком много попыток. Попробуйте позже." },
+        { status: 429, headers: { "Retry-After": String(rl.retryAfter) } }
+      );
+    }
+
     const { username, password } = await request.json();
     const admin = await prisma.admin.findUnique({ where: { username } });
     if (!admin || !compareSync(password, admin.passwordHash)) {

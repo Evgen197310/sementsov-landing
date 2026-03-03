@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
+import { sanitizeUrl } from "@/lib/validation";
 
 export async function GET() {
   const partners = await prisma.partner.findMany({ orderBy: { order: "asc" } });
@@ -13,7 +14,7 @@ export async function POST(request: Request) {
       data: {
         name: data.name,
         description: data.description || "",
-        website: data.website || "",
+        website: sanitizeUrl(data.website),
         email: data.email || "",
         order: data.order ?? 0,
       },

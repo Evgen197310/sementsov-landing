@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
+import { sanitizeUrl } from "@/lib/validation";
 
 export async function GET() {
   const team = await prisma.teamMember.findMany({ orderBy: { order: "asc" } });
@@ -19,7 +20,7 @@ export async function POST(request: Request) {
         education: data.education || "",
         experience: data.experience || "",
         photo: data.photo || "",
-        website: data.website || "",
+        website: sanitizeUrl(data.website),
         order: data.order ?? 0,
       },
     });

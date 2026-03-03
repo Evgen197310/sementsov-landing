@@ -65,23 +65,23 @@ export default async function HomePage() {
                   О коллегии
                 </Link>
               </div>
-            </div>
-            {/* Mobile: compact photo */}
-            <div className="flex items-center gap-4 mt-8 lg:hidden">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-[#c9a962]/30 flex-shrink-0">
-                <Image
-                  src="/team/sementsov.webp"
-                  alt="Семенцов Владимир Алексеевич"
-                  width={96}
-                  height={96}
-                  sizes="(min-width: 640px) 96px, 80px"
-                  className="w-full h-full object-cover"
-                  priority
-                />
-              </div>
-              <div>
-                <p className="text-[#f5f3f0] font-['Playfair_Display'] font-semibold">Владимир Семенцов</p>
-                <p className="text-[#c9a962] text-sm">Председатель Президиума</p>
+              {/* Mobile: compact photo */}
+              <div className="flex items-center gap-4 mt-8 lg:hidden">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-[#c9a962]/30 flex-shrink-0">
+                  <Image
+                    src="/team/sementsov.webp"
+                    alt="Семенцов Владимир Алексеевич"
+                    width={96}
+                    height={96}
+                    sizes="(min-width: 640px) 96px, 80px"
+                    className="w-full h-full object-cover"
+                    priority
+                  />
+                </div>
+                <div>
+                  <p className="text-[#f5f3f0] font-['Playfair_Display'] font-semibold">Владимир Семенцов</p>
+                  <p className="text-[#c9a962] text-sm">Председатель Президиума</p>
+                </div>
               </div>
             </div>
             {/* Desktop: full photo */}

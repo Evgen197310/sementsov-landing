@@ -48,7 +48,7 @@ export default function AdminTeamPage() {
     const method = editing.id ? "PUT" : "POST";
     const url = editing.id ? `/api/team/${editing.id}` : "/api/team";
     const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(editing) });
-    if (!res.ok) { alert("Ошибка сохранения"); return; }
+    if (!res.ok) { const err = await res.json().catch(() => ({})); alert(err.error || "Ошибка сохранения"); return; }
     setEditing(null);
     load();
   };

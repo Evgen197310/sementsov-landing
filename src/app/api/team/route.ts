@@ -13,6 +13,13 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const data = await request.json();
+    if (!data.slug) {
+      return NextResponse.json({ error: "Slug не может быть пустым" }, { status: 400 });
+    }
+    const existing = await prisma.teamMember.findUnique({ where: { slug: data.slug } });
+    if (existing) {
+      return NextResponse.json({ error: `Slug "${data.slug}" уже занят` }, { status: 409 });
+    }
     const member = await prisma.teamMember.create({
       data: {
         name: data.name,

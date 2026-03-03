@@ -5,7 +5,9 @@ import { revalidatePath } from "next/cache";
 
 export async function GET() {
   const team = await prisma.teamMember.findMany({ orderBy: { order: "asc" } });
-  return NextResponse.json(team);
+  return NextResponse.json(team, {
+    headers: { "Cache-Control": "no-store, max-age=0" },
+  });
 }
 
 export async function POST(request: Request) {

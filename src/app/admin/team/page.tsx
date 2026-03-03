@@ -38,7 +38,7 @@ export default function AdminTeamPage() {
 
   const load = () => {
     setLoading(true);
-    fetch("/api/team").then((r) => r.json()).then(setItems).finally(() => setLoading(false));
+    fetch("/api/team", { cache: "no-store" }).then((r) => r.json()).then(setItems).finally(() => setLoading(false));
   };
 
   useEffect(() => { load(); }, []);
@@ -47,14 +47,16 @@ export default function AdminTeamPage() {
     if (!editing) return;
     const method = editing.id ? "PUT" : "POST";
     const url = editing.id ? `/api/team/${editing.id}` : "/api/team";
-    await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(editing) });
+    const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(editing) });
+    if (!res.ok) { alert("Ошибка сохранения"); return; }
     setEditing(null);
     load();
   };
 
   const remove = async (id: number) => {
     if (!confirm("Удалить?")) return;
-    await fetch(`/api/team/${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/team/${id}`, { method: "DELETE" });
+    if (!res.ok) { alert("Ошибка удаления"); return; }
     load();
   };
 

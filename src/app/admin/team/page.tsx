@@ -106,7 +106,15 @@ export default function AdminTeamPage() {
               </button>
             </div>
             <div className="space-y-4">
-              <Field label="Имя" value={editing.name || ""} onChange={(v) => setEditing({ ...editing, name: v, slug: editing.id ? editing.slug : toSlug(v) })} />
+              <Field label="Имя" value={editing.name || ""} onChange={(v) => {
+                if (editing.id) { setEditing({ ...editing, name: v }); return; }
+                const base = toSlug(v);
+                const taken = new Set(items.map((m) => m.slug));
+                let slug = base;
+                let i = 2;
+                while (taken.has(slug)) { slug = `${base}-${i}`; i++; }
+                setEditing({ ...editing, name: v, slug });
+              }} />
               <Field label="Slug" value={editing.slug || ""} onChange={(v) => setEditing({ ...editing, slug: v })} />
               <Field label="Должность" value={editing.position || ""} onChange={(v) => setEditing({ ...editing, position: v })} />
               <Field label="Специализация" value={editing.specialization || ""} onChange={(v) => setEditing({ ...editing, specialization: v })} />

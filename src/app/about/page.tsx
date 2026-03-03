@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { ArrowRight, Scale, Globe, Shield, Award, Users, Clock } from "lucide-react";
 
+export const revalidate = 3600;
 export const metadata = { title: "О коллегии — МКА «Семенцов и Партнёры»" };
 
 export default async function AboutPage() {

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { ArrowRight } from "lucide-react";
 
+export const revalidate = 3600;
 export const metadata = { title: "Коллегия в СМИ — МКА «Семенцов и Партнёры»" };
 
 export default async function MediaPressPage() {

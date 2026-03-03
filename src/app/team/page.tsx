@@ -3,6 +3,7 @@ import Image from "next/image";
 import { prisma } from "@/lib/db";
 import { Globe } from "lucide-react";
 
+export const revalidate = 3600;
 export const metadata = { title: "Наша команда — МКА «Семенцов и Партнёры»" };
 
 export default async function TeamPage() {

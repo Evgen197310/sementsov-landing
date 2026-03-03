@@ -2,6 +2,7 @@ import { prisma } from "@/lib/db";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+export const revalidate = 3600;
 export const metadata = { title: "Новости — МКА «Семенцов и Партнёры»" };
 
 const PER_PAGE = 20;

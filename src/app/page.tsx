@@ -13,6 +13,8 @@ import {
   Clock,
 } from "lucide-react";
 
+export const revalidate = 3600;
+
 export default async function HomePage() {
   const [team, news, servicesInd, servicesLegal] = await Promise.all([
     prisma.teamMember.findMany({ orderBy: { order: "asc" }, take: 4 }),

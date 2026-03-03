@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { ArrowRight } from "lucide-react";
 
+export const revalidate = 3600;
 export const metadata = { title: "Услуги юридическим лицам — МКА «Семенцов и Партнёры»" };
 
 export default async function LegalServicesPage() {

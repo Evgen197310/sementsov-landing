@@ -26,7 +26,7 @@
 ```
 sementsov_landing/
 ├── prisma/
-│   ├── schema.prisma          # Схема БД (12 моделей)
+│   ├── schema.prisma          # Схема БД (15 моделей)
 │   ├── seed.ts                # Начальные данные
 │   └── migrations/            # Миграции Prisma
 ├── prisma.config.ts           # Конфиг Prisma
@@ -114,9 +114,8 @@ cd sementsov_landing
 # 2. Установить зависимости
 npm ci
 
-# 3. Настроить окружение
-cp .env.example .env   # или создать .env вручную
-# DATABASE_URL="file:./dev.db"
+# 3. Создать файл окружения
+echo 'DATABASE_URL="file:./dev.db"' > .env
 
 # 4. Применить миграции и засеять БД
 npx prisma migrate deploy

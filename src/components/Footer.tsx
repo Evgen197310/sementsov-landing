@@ -8,6 +8,7 @@ export function Footer() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errors, setErrors] = useState<{ email?: string; phone?: string }>({});
+  const [consent, setConsent] = useState(false);
 
   const formatPhone = useCallback((value: string) => {
     const digits = value.replace(/\D/g, "");
@@ -69,6 +70,7 @@ export function Footer() {
       if (res.ok) {
         setStatus("sent");
         setForm({ name: "", email: "", phone: "", service: "", message: "" });
+        setConsent(false);
       } else {
         setStatus("error");
       }
@@ -146,10 +148,25 @@ export function Footer() {
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 className="w-full bg-[#0f2133] border border-[#1e3a51]/50 rounded-lg px-4 py-3 text-sm text-[#f5f3f0] placeholder:text-[#5a6f80] focus:border-[#c9a962] focus:outline-none transition-colors resize-none"
               />
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                  required
+                  className="mt-1 w-4 h-4 rounded border-[#1e3a51] bg-[#0f2133] text-[#c9a962] focus:ring-[#c9a962] focus:ring-offset-0 accent-[#c9a962] flex-shrink-0"
+                />
+                <span className="text-[#5a6f80] text-xs leading-relaxed">
+                  Я даю{" "}
+                  <Link href="/privacy" target="_blank" className="text-[#c9a962] hover:underline">
+                    согласие на обработку персональных данных
+                  </Link>
+                </span>
+              </label>
               <button
                 type="submit"
-                disabled={status === "sending"}
-                className="btn-primary flex items-center gap-2"
+                disabled={status === "sending" || !consent}
+                className="btn-primary flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send className="w-4 h-4" />
                 {status === "sending" ? "Отправка..." : "Отправить"}
@@ -225,6 +242,7 @@ export function Footer() {
               <Link href="/partners" className="hover:text-[#8b9caa] transition-colors">Партнёры</Link>
               <Link href="/career" className="hover:text-[#8b9caa] transition-colors">Карьера</Link>
               <Link href="/contacts" className="hover:text-[#8b9caa] transition-colors">Контакты</Link>
+              <Link href="/privacy" className="hover:text-[#8b9caa] transition-colors">Политика конфиденциальности</Link>
             </div>
             <p className="text-xs text-[#3d4f5f]">
               &copy; {new Date().getFullYear()} МКА «Семенцов и Партнёры»

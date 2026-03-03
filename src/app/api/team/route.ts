@@ -9,7 +9,20 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const data = await request.json();
-    const member = await prisma.teamMember.create({ data });
+    const member = await prisma.teamMember.create({
+      data: {
+        name: data.name,
+        slug: data.slug,
+        position: data.position || "",
+        specialization: data.specialization || "",
+        bio: data.bio || "",
+        education: data.education || "",
+        experience: data.experience || "",
+        photo: data.photo || "",
+        website: data.website || "",
+        order: data.order ?? 0,
+      },
+    });
     return NextResponse.json(member);
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });

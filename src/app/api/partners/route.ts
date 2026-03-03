@@ -9,7 +9,15 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const data = await request.json();
-    const partner = await prisma.partner.create({ data });
+    const partner = await prisma.partner.create({
+      data: {
+        name: data.name,
+        description: data.description || "",
+        website: data.website || "",
+        email: data.email || "",
+        order: data.order ?? 0,
+      },
+    });
     return NextResponse.json(partner);
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });

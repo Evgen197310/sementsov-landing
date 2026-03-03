@@ -5,7 +5,17 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   try {
     const { id } = await params;
     const data = await request.json();
-    const article = await prisma.newsArticle.update({ where: { id: Number(id) }, data });
+    const article = await prisma.newsArticle.update({
+      where: { id: Number(id) },
+      data: {
+        title: data.title,
+        slug: data.slug,
+        content: data.content || "",
+        excerpt: data.excerpt || "",
+        section: data.section || "news",
+        attachments: data.attachments || "",
+      },
+    });
     return NextResponse.json(article);
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });

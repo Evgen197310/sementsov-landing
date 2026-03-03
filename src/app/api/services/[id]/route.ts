@@ -5,13 +5,20 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   try {
     const { id } = await params;
     const data = await request.json();
-    const { faqs, category, ...rest } = data;
     await prisma.serviceFaq.deleteMany({ where: { serviceId: Number(id) } });
     const service = await prisma.service.update({
       where: { id: Number(id) },
       data: {
-        ...rest,
-        faqs: faqs?.length ? { create: faqs.map((f: { question: string; answer: string; order?: number }, i: number) => ({ question: f.question, answer: f.answer, order: f.order ?? i })) } : undefined,
+        title: data.title,
+        slug: data.slug,
+        description: data.description || "",
+        content: data.content || "",
+        icon: data.icon || "",
+        order: data.order ?? 0,
+        categoryId: data.categoryId,
+        faqs: data.faqs?.length
+          ? { create: data.faqs.map((f: { question: string; answer: string; order?: number }, i: number) => ({ question: f.question, answer: f.answer, order: f.order ?? i })) }
+          : undefined,
       },
     });
     return NextResponse.json(service);

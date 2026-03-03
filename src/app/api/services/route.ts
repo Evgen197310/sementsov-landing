@@ -13,9 +13,19 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const data = await request.json();
-    const { faqs, category, ...rest } = data;
     const service = await prisma.service.create({
-      data: { ...rest, faqs: faqs?.length ? { create: faqs.map((f: { question: string; answer: string; order?: number }, i: number) => ({ question: f.question, answer: f.answer, order: f.order ?? i })) } : undefined },
+      data: {
+        title: data.title,
+        slug: data.slug,
+        description: data.description || "",
+        content: data.content || "",
+        icon: data.icon || "",
+        order: data.order ?? 0,
+        categoryId: data.categoryId,
+        faqs: data.faqs?.length
+          ? { create: data.faqs.map((f: { question: string; answer: string; order?: number }, i: number) => ({ question: f.question, answer: f.answer, order: f.order ?? i })) }
+          : undefined,
+      },
     });
     return NextResponse.json(service);
   } catch (e) {

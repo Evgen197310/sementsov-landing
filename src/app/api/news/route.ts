@@ -12,7 +12,16 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const data = await request.json();
-    const article = await prisma.newsArticle.create({ data });
+    const article = await prisma.newsArticle.create({
+      data: {
+        title: data.title,
+        slug: data.slug,
+        content: data.content || "",
+        excerpt: data.excerpt || "",
+        section: data.section || "news",
+        attachments: data.attachments || "",
+      },
+    });
     return NextResponse.json(article);
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });

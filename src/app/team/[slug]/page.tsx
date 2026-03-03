@@ -95,7 +95,7 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ slu
                 <a href={member.website} target="_blank" rel="noopener noreferrer" className="block bg-[#0f2133] border border-[#1e3a51]/30 rounded-xl p-5 hover:border-[#c9a962]/30 transition-colors">
                   <Globe className="w-5 h-5 text-[#c9a962] mb-2" />
                   <h3 className="text-[#f5f3f0] text-sm font-semibold mb-1">Личный сайт</h3>
-                  <p className="text-[#c9a962] text-sm hover:underline">{member.website.replace(/^https?:\/\//, "")}</p>
+                  <p className="text-[#c9a962] text-sm hover:underline">{member.website}</p>
                 </a>
               )}
             </div>

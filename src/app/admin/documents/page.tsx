@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { FileText, Plus, Pencil, Trash2, X } from "lucide-react";
+import { FileAttachments } from "@/components/admin/FileAttachments";
 
-interface Doc { id: number; title: string; slug: string; content: string; fileUrl: string; }
+interface Doc { id: number; title: string; slug: string; content: string; fileUrl: string; attachments: string; }
 
 export default function AdminDocumentsPage() {
   const [items, setItems] = useState<Doc[]>([]);
@@ -34,8 +35,8 @@ export default function AdminDocumentsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-['Playfair_Display'] font-semibold text-[#f5f3f0]">Документы</h1>
-        <button onClick={() => setEditing({ title: "", slug: "", content: "", fileUrl: "" })} className="flex items-center gap-2 bg-[#c9a962] text-[#0b1c2b] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#ddc488] transition-colors">
+        <h1 className="text-2xl font-['Playfair_Display'] font-semibold text-[#f5f3f0]">Образцы документов</h1>
+        <button onClick={() => setEditing({ title: "", slug: "", content: "", fileUrl: "", attachments: "" })} className="flex items-center gap-2 bg-[#c9a962] text-[#0b1c2b] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#ddc488] transition-colors">
           <Plus className="w-4 h-4" /> Добавить
         </button>
       </div>
@@ -73,6 +74,7 @@ export default function AdminDocumentsPage() {
                 <label className="text-[#8b9caa] text-xs mb-1 block">Содержимое</label>
                 <textarea value={editing.content || ""} onChange={(e) => setEditing({ ...editing, content: e.target.value })} rows={8} className="w-full bg-[#0f2133] border border-[#1e3a51]/50 rounded-lg px-3 py-2.5 text-sm text-[#f5f3f0] focus:border-[#c9a962] focus:outline-none resize-none" />
               </div>
+              <FileAttachments value={editing.attachments || ""} onChange={(v) => setEditing({ ...editing, attachments: v })} />
               <button onClick={save} className="w-full bg-[#c9a962] text-[#0b1c2b] py-3 rounded-lg font-medium hover:bg-[#ddc488] transition-colors">Сохранить</button>
             </div>
           </div>

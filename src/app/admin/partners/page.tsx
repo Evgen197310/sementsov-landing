@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, X } from "lucide-react";
+import { FileAttachments } from "@/components/admin/FileAttachments";
 
 interface Partner {
   id: number;
@@ -9,6 +10,7 @@ interface Partner {
   description: string;
   website: string;
   email: string;
+  attachments: string;
   order: number;
 }
 
@@ -42,7 +44,7 @@ export default function AdminPartnersPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-['Playfair_Display'] font-semibold text-[#f5f3f0]">Партнёры</h1>
-        <button onClick={() => setEditing({ name: "", description: "", website: "", email: "", order: 0 })} className="flex items-center gap-2 bg-[#c9a962] text-[#0b1c2b] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#ddc488]">
+        <button onClick={() => setEditing({ name: "", description: "", website: "", email: "", attachments: "", order: 0 })} className="flex items-center gap-2 bg-[#c9a962] text-[#0b1c2b] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#ddc488]">
           <Plus className="w-4 h-4" /> Добавить
         </button>
       </div>
@@ -75,6 +77,7 @@ export default function AdminPartnersPage() {
               <Inp label="Сайт" value={editing.website || ""} onChange={(v) => setEditing({ ...editing, website: v })} />
               <Inp label="Email" value={editing.email || ""} onChange={(v) => setEditing({ ...editing, email: v })} />
               <Inp label="Порядок" value={String(editing.order || 0)} onChange={(v) => setEditing({ ...editing, order: Number(v) })} />
+              <FileAttachments value={editing.attachments || ""} onChange={(v) => setEditing({ ...editing, attachments: v })} />
               <button onClick={save} className="w-full bg-[#c9a962] text-[#0b1c2b] py-3 rounded-lg font-medium hover:bg-[#ddc488]">Сохранить</button>
             </div>
           </div>

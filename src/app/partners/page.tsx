@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db";
 import { ExternalLink } from "lucide-react";
+import { PublicAttachments } from "@/components/PublicAttachments";
 
 export const metadata = { title: "Партнёры — МКА «Семенцов и Партнёры»" };
 
@@ -47,6 +48,7 @@ export default async function PartnersPage() {
                     </a>
                   )}
                 </div>
+                <PublicAttachments attachments={p.attachments} />
               </div>
             ))}
           </div>

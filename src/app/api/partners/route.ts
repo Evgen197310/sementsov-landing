@@ -20,6 +20,7 @@ export async function POST(request: Request) {
         description: data.description || "",
         website: sanitizeUrl(data.website),
         email: data.email || "",
+        attachments: data.attachments || "",
         order: data.order ?? 0,
       },
     });

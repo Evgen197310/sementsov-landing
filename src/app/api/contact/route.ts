@@ -2,6 +2,7 @@ import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rate-limit";
 import { logRequest, logResponse, logError } from "@/lib/logger";
+import { sendContactNotification } from "@/lib/mailer";
 
 export async function GET() {
   logRequest("/api/contact", "GET");
@@ -32,6 +33,8 @@ export async function POST(request: Request) {
     await prisma.contactMessage.create({
       data: { name, email, phone: phone || "", service: service || "", message },
     });
+
+    sendContactNotification({ name, email, phone, service, message }).catch(() => {});
 
     logResponse("/api/contact", "POST", 200);
     return NextResponse.json({ success: true });

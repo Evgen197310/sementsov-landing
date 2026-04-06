@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     const data = await request.json();
     logRequest("/api/media", "POST", { _type: data._type, title: data.title || data.name });
     if (data._type === "category") {
-      const cat = await prisma.mediaCategory.create({ data: { name: data.name, slug: data.slug, description: data.description || "" } });
+      const cat = await prisma.mediaCategory.create({ data: { name: data.name, slug: data.slug, description: data.description || "", attachments: data.attachments || "" } });
       return NextResponse.json(cat);
     }
     const article = await prisma.mediaArticle.create({
@@ -27,6 +27,7 @@ export async function POST(request: Request) {
         excerpt: data.excerpt || "",
         source: sanitizeUrl(data.source),
         tags: data.tags || "",
+        attachments: data.attachments || "",
         categoryId: data.categoryId || null,
       },
     });

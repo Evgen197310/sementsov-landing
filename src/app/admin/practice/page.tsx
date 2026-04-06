@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, X, ChevronDown, ChevronRight } from "lucide-react";
+import { FileAttachments } from "@/components/admin/FileAttachments";
 
 interface PracticeCase {
   id: number;
@@ -13,6 +14,7 @@ interface PracticeCase {
   actions: string;
   result: string;
   tags: string;
+  attachments: string;
   categoryId: number | null;
 }
 
@@ -21,6 +23,7 @@ interface PracticeCategory {
   name: string;
   slug: string;
   description: string;
+  attachments: string;
   cases: PracticeCase[];
 }
 
@@ -74,7 +77,7 @@ export default function AdminPracticePage() {
     load();
   };
 
-  const emptyCase = (catId?: number): EditingCase => ({ title: "", slug: "", content: "", excerpt: "", situation: "", actions: "", result: "", tags: "", categoryId: catId ?? null });
+  const emptyCase = (catId?: number): EditingCase => ({ title: "", slug: "", content: "", excerpt: "", situation: "", actions: "", result: "", tags: "", attachments: "", categoryId: catId ?? null });
   const allCategories = data.categories;
 
   return (
@@ -167,6 +170,7 @@ export default function AdminPracticePage() {
             <Inp label="Название" value={editingCat.name || ""} onChange={(v) => setEditingCat({ ...editingCat, name: v, slug: editingCat.slug || toSlug(v) })} />
             <Inp label="Slug" value={editingCat.slug || ""} onChange={(v) => setEditingCat({ ...editingCat, slug: v })} />
             <Txt label="Описание" value={editingCat.description || ""} onChange={(v) => setEditingCat({ ...editingCat, description: v })} rows={3} />
+            <FileAttachments value={editingCat.attachments || ""} onChange={(v) => setEditingCat({ ...editingCat, attachments: v })} />
             <button onClick={saveCat} className="w-full bg-[#c9a962] text-[#0b1c2b] py-3 rounded-lg font-medium hover:bg-[#ddc488] transition-colors">Сохранить</button>
           </div>
         </Modal>
@@ -195,6 +199,7 @@ export default function AdminPracticePage() {
             <Txt label="Результат" value={editingCase.result || ""} onChange={(v) => setEditingCase({ ...editingCase, result: v })} rows={3} />
             <Inp label="Теги (через запятую)" value={editingCase.tags || ""} onChange={(v) => setEditingCase({ ...editingCase, tags: v })} />
             <Txt label="Содержимое" value={editingCase.content || ""} onChange={(v) => setEditingCase({ ...editingCase, content: v })} />
+            <FileAttachments value={editingCase.attachments || ""} onChange={(v) => setEditingCase({ ...editingCase, attachments: v })} />
             <button onClick={saveCase} className="w-full bg-[#c9a962] text-[#0b1c2b] py-3 rounded-lg font-medium hover:bg-[#ddc488] transition-colors">Сохранить</button>
           </div>
         </Modal>

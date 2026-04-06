@@ -1,14 +1,19 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
-import { Phone, Mail, MapPin, Send } from "lucide-react";
+import { Phone, Mail, MapPin, Send, ExternalLink } from "lucide-react";
 
 export function Footer() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errors, setErrors] = useState<{ email?: string; phone?: string }>({});
   const [consent, setConsent] = useState(false);
+  const [socialLinks, setSocialLinks] = useState<{ id: number; platform: string; url: string; icon: string }[]>([]);
+
+  useEffect(() => {
+    fetch("/api/social").then((r) => r.json()).then(setSocialLinks).catch(() => {});
+  }, []);
 
   const formatPhone = useCallback((value: string) => {
     const digits = value.replace(/\D/g, "");
@@ -191,8 +196,8 @@ export function Footer() {
                 <div>
                   <p className="text-[#f5f3f0] text-sm font-medium">Адрес</p>
                   <p className="text-[#8b9caa] text-sm">
-                    107031 Москва, ул. Большая Дмитровка<br />
-                    д.20/5, строение 2, офис 20
+                    107031, г.Москва, ул.Большая Дмитровка,<br />
+                    д.20, строение 2, офис 20
                   </p>
                 </div>
               </div>
@@ -223,6 +228,27 @@ export function Footer() {
                 Позвоните нам или оставьте заявку — мы ответим в течение часа
               </p>
             </div>
+
+            {socialLinks.length > 0 && (
+              <div className="mt-6">
+                <p className="text-[#f5f3f0] text-sm font-medium mb-3">Мы в соцсетях</p>
+                <div className="flex flex-wrap gap-2">
+                  {socialLinks.map((s) => (
+                    <a
+                      key={s.id}
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 bg-[#0f2133] border border-[#1e3a51]/30 rounded-lg px-3 py-2 text-[#8b9caa] text-xs hover:text-[#c9a962] hover:border-[#c9a962]/30 transition-colors"
+                      title={s.platform}
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      {s.platform}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -238,7 +264,7 @@ export function Footer() {
               <Link href="/team" className="hover:text-[#8b9caa] transition-colors">Команда</Link>
               <Link href="/practice" className="hover:text-[#8b9caa] transition-colors">Практика</Link>
               <Link href="/media/news" className="hover:text-[#8b9caa] transition-colors">Новости</Link>
-              <Link href="/documents" className="hover:text-[#8b9caa] transition-colors">Документы</Link>
+              <Link href="/documents" className="hover:text-[#8b9caa] transition-colors">Образцы документов</Link>
               <Link href="/partners" className="hover:text-[#8b9caa] transition-colors">Партнёры</Link>
               <Link href="/career" className="hover:text-[#8b9caa] transition-colors">Карьера</Link>
               <Link href="/contacts" className="hover:text-[#8b9caa] transition-colors">Контакты</Link>

@@ -2,6 +2,7 @@ import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink } from "lucide-react";
+import { PublicAttachments } from "@/components/PublicAttachments";
 
 export const revalidate = 3600;
 
@@ -61,6 +62,7 @@ export default async function MediaArticlePage({ params }: { params: Promise<{ s
               </a>
             </div>
           )}
+          <PublicAttachments attachments={article.attachments} />
           <div className="mt-8">
             <Link href={backHref} className="inline-flex items-center gap-2 text-[#8b9caa] hover:text-[#c9a962] transition-colors text-sm">
               <ArrowLeft className="w-4 h-4" /> Назад к публикациям

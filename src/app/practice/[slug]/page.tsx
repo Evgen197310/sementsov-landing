@@ -2,6 +2,7 @@ import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { PublicAttachments } from "@/components/PublicAttachments";
 
 export const revalidate = 3600;
 
@@ -54,6 +55,7 @@ export default async function PracticeCategoryPage({ params }: { params: Promise
                       ))}
                     </div>
                   )}
+                  <PublicAttachments attachments={c.attachments} />
                 </div>
               ))}
             </div>

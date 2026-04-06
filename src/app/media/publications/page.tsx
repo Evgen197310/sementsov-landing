@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { PublicAttachments } from "@/components/PublicAttachments";
 
 export const metadata = { title: "Научные труды — МКА «Семенцов и Партнёры»" };
 
@@ -27,6 +28,7 @@ export default async function PublicationsPage() {
                   <h2 className="text-[#f5f3f0] font-semibold">{p.title}</h2>
                   <p className="text-[#5a6f80] text-xs mt-1">Раздел: {p.section === "kuklin" ? "Куклин В.В." : p.section}</p>
                   {p.content && <div className="text-[#8b9caa] text-sm mt-3 whitespace-pre-line">{p.content}</div>}
+                  <PublicAttachments attachments={p.attachments} />
                 </div>
               ))}
             </div>

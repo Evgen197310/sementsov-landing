@@ -43,7 +43,7 @@ export default function PrivacyPage() {
             <h2 className="text-lg font-semibold text-[#f5f3f0] mb-3">2. Оператор персональных данных</h2>
             <ul className="list-disc pl-5 space-y-1">
               <li>Оператор: Московская коллегия адвокатов «Семенцов и Партнёры»</li>
-              <li>Адрес: 107031, г. Москва, ул. Большая Дмитровка, д. 20/5, строение 2, офис 20</li>
+              <li>Адрес: 107031, г.Москва, ул.Большая Дмитровка, д.20, строение 2, офис 20</li>
               <li>Телефон: +7 (495) 629-82-50</li>
               <li>E-mail: vsementsov11@mail.ru</li>
             </ul>

@@ -19,6 +19,7 @@ export async function POST(request: Request) {
         slug: data.slug,
         content: data.content || "",
         fileUrl: data.fileUrl || "",
+        attachments: data.attachments || "",
       },
     });
     logResponse("/api/documents", "POST", 200, { id: doc.id });

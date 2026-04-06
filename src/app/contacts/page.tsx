@@ -23,8 +23,8 @@ export default function ContactsPage() {
                 <div>
                   <h2 className="text-[#f5f3f0] font-semibold mb-1">Адрес</h2>
                   <p className="text-[#8b9caa]">
-                    107031 Москва, ул. Большая Дмитровка<br />
-                    д.20/5, строение 2, офис 20
+                    107031, г.Москва, ул.Большая Дмитровка,<br />
+                    д.20, строение 2, офис 20
                   </p>
                 </div>
               </div>

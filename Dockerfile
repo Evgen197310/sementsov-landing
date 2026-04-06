@@ -35,7 +35,7 @@ COPY --from=builder /app/node_modules/@img ./node_modules/@img
 COPY docker-entrypoint.sh ./
 
 RUN chmod +x docker-entrypoint.sh
-RUN mkdir -p /app/data /app/data/uploads/team
+RUN mkdir -p /app/data /app/data/uploads/team /app/data/uploads/files
 VOLUME ["/app/data"]
 
 EXPOSE 3000

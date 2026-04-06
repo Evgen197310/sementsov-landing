@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     const data = await request.json();
     logRequest("/api/practice", "POST", { _type: data._type, title: data.title || data.name });
     if (data._type === "category") {
-      const cat = await prisma.practiceCategory.create({ data: { name: data.name, slug: data.slug, description: data.description || "" } });
+      const cat = await prisma.practiceCategory.create({ data: { name: data.name, slug: data.slug, description: data.description || "", attachments: data.attachments || "" } });
       return NextResponse.json(cat);
     }
     const c = await prisma.practiceCase.create({
@@ -28,6 +28,7 @@ export async function POST(request: Request) {
         actions: data.actions || "",
         result: data.result || "",
         tags: data.tags || "",
+        attachments: data.attachments || "",
         categoryId: data.categoryId || null,
       },
     });

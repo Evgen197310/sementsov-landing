@@ -11,7 +11,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     if (data._type === "category") {
       const cat = await prisma.mediaCategory.update({
         where: { id: Number(id) },
-        data: { name: data.name, slug: data.slug, description: data.description || "" },
+        data: { name: data.name, slug: data.slug, description: data.description || "", attachments: data.attachments || "" },
       });
       return NextResponse.json(cat);
     }
@@ -24,6 +24,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         excerpt: data.excerpt || "",
         source: sanitizeUrl(data.source),
         tags: data.tags || "",
+        attachments: data.attachments || "",
         categoryId: data.categoryId || null,
       },
     });

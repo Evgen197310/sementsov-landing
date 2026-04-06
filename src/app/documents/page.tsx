@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/db";
 import { FileText } from "lucide-react";
+import { PublicAttachments } from "@/components/PublicAttachments";
 
-export const metadata = { title: "Документы — МКА «Семенцов и Партнёры»" };
+export const metadata = { title: "Образцы документов — МКА «Семенцов и Партнёры»" };
 
 export default async function DocumentsPage() {
   const docs = await prisma.document.findMany();
@@ -11,7 +12,7 @@ export default async function DocumentsPage() {
       <section className="bg-gradient-to-b from-[#071420] to-[#0b1c2b] py-16 md:py-24">
         <div className="container mx-auto px-4 max-w-5xl">
           <h1 className="text-3xl md:text-5xl font-['Playfair_Display'] font-bold text-[#f5f3f0] mb-4">
-            Документы
+            Образцы документов
           </h1>
           <div className="decorative-line" />
         </div>
@@ -28,6 +29,7 @@ export default async function DocumentsPage() {
                   <div>
                     <h2 className="text-[#f5f3f0] font-semibold">{d.title}</h2>
                     {d.content && <p className="text-[#8b9caa] text-sm mt-2 whitespace-pre-line">{d.content}</p>}
+                    <PublicAttachments attachments={d.attachments} />
                   </div>
                 </div>
               ))}

@@ -131,8 +131,9 @@ export function Header() {
               </div>
             </Dropdown>
 
-            <NavLink href="/documents">Документы</NavLink>
+            <NavLink href="/documents">Образцы документов</NavLink>
             <NavLink href="/partners">Партнёры</NavLink>
+            <NavLink href="/social">Соцсети</NavLink>
             <NavLink href="/contacts">Контакты</NavLink>
           </nav>
 
@@ -172,8 +173,9 @@ export function Header() {
                   <MobileLink key={m.href} href={m.href} onClick={() => setMobileOpen(false)} sub>{m.title}</MobileLink>
                 ))}
               </MobileSection>
-              <MobileLink href="/documents" onClick={() => setMobileOpen(false)}>Документы</MobileLink>
+              <MobileLink href="/documents" onClick={() => setMobileOpen(false)}>Образцы документов</MobileLink>
               <MobileLink href="/partners" onClick={() => setMobileOpen(false)}>Партнёры</MobileLink>
+              <MobileLink href="/social" onClick={() => setMobileOpen(false)}>Соцсети</MobileLink>
               <MobileLink href="/career" onClick={() => setMobileOpen(false)}>Карьера</MobileLink>
               <MobileLink href="/contacts" onClick={() => setMobileOpen(false)}>Контакты</MobileLink>
               <div className="pt-4 border-t border-[#1e3a51]/30">

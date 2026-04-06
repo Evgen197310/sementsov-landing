@@ -17,6 +17,7 @@ import {
   LogOut,
   Menu,
   X,
+  Share2,
 } from "lucide-react";
 
 const navItems = [
@@ -27,9 +28,10 @@ const navItems = [
   { href: "/admin/media", icon: Tv, label: "СМИ" },
   { href: "/admin/practice", icon: Scale, label: "Практика" },
   { href: "/admin/partners", icon: Handshake, label: "Партнёры" },
-  { href: "/admin/documents", icon: FileText, label: "Документы" },
+  { href: "/admin/documents", icon: FileText, label: "Образцы док." },
   { href: "/admin/publications", icon: BookOpen, label: "Публикации" },
   { href: "/admin/pages", icon: FileText, label: "Страницы" },
+  { href: "/admin/social", icon: Share2, label: "Соцсети" },
   { href: "/admin/messages", icon: MessageSquare, label: "Заявки" },
 ];
 

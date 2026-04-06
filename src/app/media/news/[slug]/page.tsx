@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, FileText, Download } from "lucide-react";
+import { PublicAttachments } from "@/components/PublicAttachments";
 
 export const revalidate = 3600;
 
@@ -99,6 +100,8 @@ export default async function NewsArticlePage({ params }: { params: Promise<{ sl
               </div>
             </div>
           )}
+
+          <PublicAttachments attachments={article.attachments} />
 
           <div className="mt-12">
             <Link href="/media/news" className="btn-outline inline-flex items-center gap-2">

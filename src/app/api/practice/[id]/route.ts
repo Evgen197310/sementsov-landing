@@ -10,7 +10,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     if (data._type === "category") {
       const cat = await prisma.practiceCategory.update({
         where: { id: Number(id) },
-        data: { name: data.name, slug: data.slug, description: data.description || "" },
+        data: { name: data.name, slug: data.slug, description: data.description || "", attachments: data.attachments || "" },
       });
       return NextResponse.json(cat);
     }
@@ -25,6 +25,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         actions: data.actions || "",
         result: data.result || "",
         tags: data.tags || "",
+        attachments: data.attachments || "",
         categoryId: data.categoryId || null,
       },
     });

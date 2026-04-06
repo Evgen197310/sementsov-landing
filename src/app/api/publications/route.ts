@@ -19,6 +19,7 @@ export async function POST(request: Request) {
         slug: data.slug,
         content: data.content || "",
         section: data.section || "kuklin",
+        attachments: data.attachments || "",
       },
     });
     logResponse("/api/publications", "POST", 200, { id: pub.id });

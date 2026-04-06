@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, X } from "lucide-react";
+import { FileAttachments } from "@/components/admin/FileAttachments";
 
 interface Article {
   id: number;
@@ -84,7 +85,7 @@ export default function AdminNewsPage() {
               </div>
               <Inp label="Превью" value={editing.excerpt || ""} onChange={(v) => setEditing({ ...editing, excerpt: v })} />
               <Txt label="Содержимое" value={editing.content || ""} onChange={(v) => setEditing({ ...editing, content: v })} />
-              <Inp label="Вложения (URL через запятую)" value={editing.attachments || ""} onChange={(v) => setEditing({ ...editing, attachments: v })} />
+              <FileAttachments value={editing.attachments || ""} onChange={(v) => setEditing({ ...editing, attachments: v })} />
               <button onClick={save} className="w-full bg-[#c9a962] text-[#0b1c2b] py-3 rounded-lg font-medium hover:bg-[#ddc488] transition-colors">Сохранить</button>
             </div>
           </div>

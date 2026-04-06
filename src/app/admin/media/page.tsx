@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, X, ChevronDown, ChevronRight } from "lucide-react";
+import { FileAttachments } from "@/components/admin/FileAttachments";
 
 interface MediaArticle {
   id: number;
@@ -11,6 +12,7 @@ interface MediaArticle {
   excerpt: string;
   source: string;
   tags: string;
+  attachments: string;
   categoryId: number | null;
 }
 
@@ -19,6 +21,7 @@ interface MediaCategory {
   name: string;
   slug: string;
   description: string;
+  attachments: string;
   articles: MediaArticle[];
 }
 
@@ -86,7 +89,7 @@ export default function AdminMediaPage() {
           <button onClick={() => setEditingCat({ name: "", slug: "", description: "", _type: "category" })} className="flex items-center gap-2 bg-[#1e3a51]/50 text-[#c9a962] px-3 py-2 rounded-lg text-sm font-medium hover:bg-[#1e3a51] transition-colors">
             <Plus className="w-4 h-4" /> Категория
           </button>
-          <button onClick={() => setEditingArt({ title: "", slug: "", content: "", excerpt: "", source: "", tags: "", categoryId: allCategories[0]?.id || null })} className="flex items-center gap-2 bg-[#c9a962] text-[#0b1c2b] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#ddc488] transition-colors">
+          <button onClick={() => setEditingArt({ title: "", slug: "", content: "", excerpt: "", source: "", tags: "", attachments: "", categoryId: allCategories[0]?.id || null })} className="flex items-center gap-2 bg-[#c9a962] text-[#0b1c2b] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#ddc488] transition-colors">
             <Plus className="w-4 h-4" /> Статья
           </button>
         </div>
@@ -131,7 +134,7 @@ export default function AdminMediaPage() {
                       </div>
                     )}
                     <button
-                      onClick={() => setEditingArt({ title: "", slug: "", content: "", excerpt: "", source: "", tags: "", categoryId: cat.id })}
+                      onClick={() => setEditingArt({ title: "", slug: "", content: "", excerpt: "", source: "", tags: "", attachments: "", categoryId: cat.id })}
                       className="mt-3 text-xs text-[#c9a962] hover:text-[#ddc488] flex items-center gap-1"
                     >
                       <Plus className="w-3 h-3" /> Добавить статью в эту категорию
@@ -171,6 +174,7 @@ export default function AdminMediaPage() {
             <Inp label="Название" value={editingCat.name || ""} onChange={(v) => setEditingCat({ ...editingCat, name: v, slug: editingCat.slug || toSlug(v) })} />
             <Inp label="Slug" value={editingCat.slug || ""} onChange={(v) => setEditingCat({ ...editingCat, slug: v })} />
             <Txt label="Описание" value={editingCat.description || ""} onChange={(v) => setEditingCat({ ...editingCat, description: v })} rows={3} />
+            <FileAttachments value={editingCat.attachments || ""} onChange={(v) => setEditingCat({ ...editingCat, attachments: v })} />
             <button onClick={saveCat} className="w-full bg-[#c9a962] text-[#0b1c2b] py-3 rounded-lg font-medium hover:bg-[#ddc488] transition-colors">Сохранить</button>
           </div>
         </Modal>
@@ -197,6 +201,7 @@ export default function AdminMediaPage() {
             <Inp label="Превью" value={editingArt.excerpt || ""} onChange={(v) => setEditingArt({ ...editingArt, excerpt: v })} />
             <Inp label="Теги (через запятую)" value={editingArt.tags || ""} onChange={(v) => setEditingArt({ ...editingArt, tags: v })} />
             <Txt label="Содержимое" value={editingArt.content || ""} onChange={(v) => setEditingArt({ ...editingArt, content: v })} />
+            <FileAttachments value={editingArt.attachments || ""} onChange={(v) => setEditingArt({ ...editingArt, attachments: v })} />
             <button onClick={saveArt} className="w-full bg-[#c9a962] text-[#0b1c2b] py-3 rounded-lg font-medium hover:bg-[#ddc488] transition-colors">Сохранить</button>
           </div>
         </Modal>

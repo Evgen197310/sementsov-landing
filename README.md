@@ -16,6 +16,7 @@
 | Стили | TailwindCSS 3.4 + tailwindcss-animate |
 | UI-компоненты | Lucide React (иконки), CVA + clsx + tailwind-merge |
 | Шрифты | Playfair Display, Open Sans (локальные woff2) |
+| Email | Nodemailer (SMTP) |
 | Контейнеризация | Docker (multi-stage build), Docker Compose |
 | Деплой | standalone-режим Next.js, реверс-прокси Nginx |
 
@@ -47,11 +48,12 @@ sementsov_landing/
 │   │   ├── services/          # Услуги: individuals, legal, mediation
 │   │   ├── practice/          # Судебная практика + [slug]
 │   │   ├── media/             # СМИ: news, press, publications, legislation
-│   │   ├── documents/         # Правовые документы
+│   │   ├── documents/         # Образцы документов
 │   │   ├── partners/          # Партнёры
 │   │   ├── contacts/          # Контакты
 │   │   ├── career/            # Карьера
-│   │   ├── admin/             # Админ-панель (11 разделов)
+│   │   ├── social/            # Мы в соцсетях
+│   │   ├── admin/             # Админ-панель (12 разделов)
 │   │   │   ├── login/         # Авторизация
 │   │   │   ├── team/          # Управление командой
 │   │   │   ├── services/      # Управление услугами
@@ -62,13 +64,18 @@ sementsov_landing/
 │   │   │   ├── documents/     # Управление документами
 │   │   │   ├── publications/  # Управление публикациями
 │   │   │   ├── pages/         # Управление страницами
+│   │   │   ├── social/        # Управление соцсетями
 │   │   │   └── messages/      # Входящие заявки
 │   │   └── api/               # API-роуты (REST)
 │   ├── components/
 │   │   ├── Header.tsx         # Шапка с навигацией
-│   │   └── Footer.tsx         # Подвал
+│   │   ├── Footer.tsx         # Подвал + форма + соцсети
+│   │   ├── PublicAttachments.tsx # Отображение вложений на публичных страницах
+│   │   └── admin/
+│   │       └── FileAttachments.tsx # Загрузка файлов в админке
 │   └── lib/
-│       └── db.ts              # Prisma-клиент (singleton)
+│       ├── db.ts              # Prisma-клиент (singleton)
+│       └── mailer.ts          # Отправка email через SMTP
 ├── Dockerfile                 # Multi-stage сборка
 ├── docker-compose.yml         # Конфигурация сервиса
 ├── docker-entrypoint.sh       # Entrypoint: копирование seed-БД при первом запуске
@@ -92,15 +99,16 @@ sementsov_landing/
 | `Service` | Услуги (привязка к категории, контент, FAQ) |
 | `ServiceFaq` | FAQ к услугам (cascade delete) |
 | `NewsArticle` | Новости коллегии (с вложениями) |
-| `MediaCategory` | Рубрики СМИ |
-| `MediaArticle` | Статьи из СМИ (источник, теги) |
-| `PracticeCategory` | Категории судебной практики |
-| `PracticeCase` | Дела (ситуация → действия → результат) |
-| `Partner` | Партнёры коллегии |
-| `Document` | Правовые документы (ссылка на файл) |
-| `Publication` | Публикации адвокатов |
+| `MediaCategory` | Рубрики СМИ (+ вложения) |
+| `MediaArticle` | Статьи из СМИ (источник, теги, вложения) |
+| `PracticeCategory` | Категории судебной практики (+ вложения) |
+| `PracticeCase` | Дела (ситуация → действия → результат, вложения) |
+| `Partner` | Партнёры коллегии (+ вложения) |
+| `Document` | Образцы документов (ссылка на файл, вложения) |
+| `Publication` | Публикации адвокатов (+ вложения) |
 | `Page` | Произвольные текстовые страницы |
 | `ContactMessage` | Заявки с сайта (имя, email, телефон, сообщение) |
+| `SocialLink` | Ссылки на соцсети (платформа, URL, иконка, порядок) |
 
 ---
 
@@ -158,6 +166,11 @@ docker compose up -d --build
 | Переменная | Описание | Пример |
 |---|---|---|
 | `DATABASE_URL` | Путь к SQLite-файлу | `file:./dev.db` (dev) / `file:/app/data/prod.db` (prod) |
+| `SMTP_HOST` | SMTP-сервер для отправки заявок | `192.168.1.12` |
+| `SMTP_PORT` | Порт SMTP | `25` |
+| `SMTP_USER` | Логин SMTP (пусто если без авторизации) | |
+| `SMTP_PASS` | Пароль SMTP | |
+| `SMTP_FROM` | Адрес отправителя | `v.sementsov@sementsov.ru` |
 
 ---
 

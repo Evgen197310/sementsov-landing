@@ -6,15 +6,20 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   try {
     const { id } = await params;
     const data = await request.json();
-    logRequest(`/api/documents/${id}`, "PUT", { title: data.title });
-    const doc = await prisma.document.update({
+    logRequest(`/api/social/${id}`, "PUT", { platform: data.platform });
+    const link = await prisma.socialLink.update({
       where: { id: Number(id) },
-      data: { title: data.title, slug: data.slug, content: data.content || "", fileUrl: data.fileUrl || "", attachments: data.attachments || "" },
+      data: {
+        platform: data.platform,
+        url: data.url,
+        icon: data.icon || "",
+        order: data.order ?? 0,
+      },
     });
-    logResponse(`/api/documents/${id}`, "PUT", 200);
-    return NextResponse.json(doc);
+    logResponse(`/api/social/${id}`, "PUT", 200);
+    return NextResponse.json(link);
   } catch (e) {
-    logError("/api/documents/[id]", "PUT", e);
+    logError("/api/social/[id]", "PUT", e);
     return NextResponse.json({ error: String(e) }, { status: 500 });
   }
 }
@@ -22,12 +27,12 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 export async function DELETE(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    logRequest(`/api/documents/${id}`, "DELETE");
-    await prisma.document.delete({ where: { id: Number(id) } });
-    logResponse(`/api/documents/${id}`, "DELETE", 200);
+    logRequest(`/api/social/${id}`, "DELETE");
+    await prisma.socialLink.delete({ where: { id: Number(id) } });
+    logResponse(`/api/social/${id}`, "DELETE", 200);
     return NextResponse.json({ success: true });
   } catch (e) {
-    logError("/api/documents/[id]", "DELETE", e);
+    logError("/api/social/[id]", "DELETE", e);
     return NextResponse.json({ error: String(e) }, { status: 500 });
   }
 }

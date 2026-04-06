@@ -3,6 +3,12 @@ services:
     build: .
     container_name: sementsov-frontend
     restart: unless-stopped
+    environment:
+      - SMTP_HOST=192.168.1.12
+      - SMTP_PORT=25
+      - SMTP_USER=
+      - SMTP_PASS=
+      - SMTP_FROM=v.sementsov@sementsov.ru
     volumes:
       - sementsov-data:/app/data
     networks:

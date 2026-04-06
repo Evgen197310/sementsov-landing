@@ -9,7 +9,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     logRequest(`/api/publications/${id}`, "PUT", { title: data.title });
     const pub = await prisma.publication.update({
       where: { id: Number(id) },
-      data: { title: data.title, slug: data.slug, content: data.content || "", section: data.section || "" },
+      data: { title: data.title, slug: data.slug, content: data.content || "", section: data.section || "", attachments: data.attachments || "" },
     });
     logResponse(`/api/publications/${id}`, "PUT", 200);
     return NextResponse.json(pub);

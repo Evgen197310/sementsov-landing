@@ -82,20 +82,22 @@ model MediaCategory {
   name        String
   slug        String         @unique
   description String         @default("")
+  attachments String         @default("")
   articles    MediaArticle[]
 }
 
 model MediaArticle {
-  id         Int            @id @default(autoincrement())
-  title      String
-  slug       String         @unique
-  content    String         @default("")
-  excerpt    String         @default("")
-  source     String         @default("")
-  tags       String         @default("")
-  createdAt  DateTime       @default(now())
-  categoryId Int?
-  category   MediaCategory? @relation(fields: [categoryId], references: [id])
+  id          Int            @id @default(autoincrement())
+  title       String
+  slug        String         @unique
+  content     String         @default("")
+  excerpt     String         @default("")
+  source      String         @default("")
+  tags        String         @default("")
+  attachments String         @default("")
+  createdAt   DateTime       @default(now())
+  categoryId  Int?
+  category    MediaCategory? @relation(fields: [categoryId], references: [id])
 }
 
 model PracticeCategory {
@@ -103,22 +105,24 @@ model PracticeCategory {
   name        String
   slug        String         @unique
   description String         @default("")
+  attachments String         @default("")
   cases       PracticeCase[]
 }
 
 model PracticeCase {
-  id         Int              @id @default(autoincrement())
-  title      String
-  slug       String           @unique
-  content    String           @default("")
-  excerpt    String           @default("")
-  situation  String           @default("")
-  actions    String           @default("")
-  result     String           @default("")
-  tags       String           @default("")
-  createdAt  DateTime         @default(now())
-  categoryId Int?
-  category   PracticeCategory? @relation(fields: [categoryId], references: [id])
+  id          Int               @id @default(autoincrement())
+  title       String
+  slug        String            @unique
+  content     String            @default("")
+  excerpt     String            @default("")
+  situation   String            @default("")
+  actions     String            @default("")
+  result      String            @default("")
+  tags        String            @default("")
+  attachments String            @default("")
+  createdAt   DateTime          @default(now())
+  categoryId  Int?
+  category    PracticeCategory? @relation(fields: [categoryId], references: [id])
 }
 
 model Partner {
@@ -127,24 +131,27 @@ model Partner {
   description String @default("")
   website     String @default("")
   email       String @default("")
+  attachments String @default("")
   order       Int    @default(0)
 }
 
 model Document {
-  id      Int    @id @default(autoincrement())
-  title   String
-  slug    String @unique
-  content String @default("")
-  fileUrl String @default("")
+  id          Int    @id @default(autoincrement())
+  title       String
+  slug        String @unique
+  content     String @default("")
+  fileUrl     String @default("")
+  attachments String @default("")
 }
 
 model Publication {
-  id        Int      @id @default(autoincrement())
-  title     String
-  slug      String   @unique
-  content   String   @default("")
-  section   String   @default("kuklin")
-  createdAt DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  content     String   @default("")
+  section     String   @default("kuklin")
+  attachments String   @default("")
+  createdAt   DateTime @default(now())
 }
 
 model Page {
@@ -163,4 +170,12 @@ model ContactMessage {
   message   String
   createdAt DateTime @default(now())
   read      Boolean  @default(false)
+}
+
+model SocialLink {
+  id       Int    @id @default(autoincrement())
+  platform String
+  url      String
+  icon     String @default("")
+  order    Int    @default(0)
 }

@@ -15,6 +15,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         description: data.description || "",
         website: sanitizeUrl(data.website),
         email: data.email || "",
+        attachments: data.attachments || "",
         order: data.order ?? 0,
       },
     });

@@ -24,7 +24,7 @@ export default async function AdminDashboard() {
     { label: "СМИ", value: mediaCount, icon: Tv, href: "/admin/media", color: "text-purple-400" },
     { label: "Практика", value: practiceCount, icon: Scale, href: "/admin/practice", color: "text-orange-400" },
     { label: "Партнёры", value: partnersCount, icon: Handshake, href: "/admin/partners", color: "text-cyan-400" },
-    { label: "Документы", value: docsCount, icon: FileText, href: "/admin/documents", color: "text-pink-400" },
+    { label: "Образцы док.", value: docsCount, icon: FileText, href: "/admin/documents", color: "text-pink-400" },
     { label: "Публикации", value: pubsCount, icon: BookOpen, href: "/admin/publications", color: "text-indigo-400" },
     { label: "Заявки", value: messagesCount, icon: MessageSquare, href: "/admin/messages", color: "text-red-400", badge: unreadMessages > 0 ? unreadMessages : undefined },
   ];

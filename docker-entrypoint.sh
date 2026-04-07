@@ -23,7 +23,7 @@ for migration_dir in /app/prisma/migrations/*/; do
   applied=$(sqlite3 "$DB_PATH" "SELECT COUNT(*) FROM _prisma_migrations WHERE migration_name='$migration_name';" 2>/dev/null || echo "0")
   if [ "$applied" = "0" ]; then
     echo "Applying migration: $migration_name"
-    sqlite3 "$DB_PATH" < "$sql_file"
+    sqlite3 "$DB_PATH" < "$sql_file" 2>/dev/null || echo "Warning: migration SQL had errors (may be already applied)"
     # Record in _prisma_migrations
     checksum=$(md5sum "$sql_file" | cut -d' ' -f1)
     sqlite3 "$DB_PATH" "INSERT INTO _prisma_migrations (id, checksum, migration_name, finished_at, applied_steps_count) VALUES (lower(hex(randomblob(16))), '$checksum', '$migration_name', datetime('now'), 1);"

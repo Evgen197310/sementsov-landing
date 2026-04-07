@@ -6,15 +6,12 @@ RUN apt-get update && apt-get install -y openssl python3 make g++ && rm -rf /var
 COPY package.json package-lock.json ./
 RUN npm ci
 
-COPY prisma ./prisma
-COPY prisma.config.ts ./
+COPY . .
 
 ENV DATABASE_URL="file:/app/prisma/seed.db"
 RUN npx prisma generate
 RUN npx prisma migrate deploy
 RUN npx tsx prisma/seed.ts
-
-COPY . .
 RUN npm run build
 
 FROM node:18-slim AS runner
@@ -32,6 +29,9 @@ COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
 COPY --from=builder /app/node_modules/sharp ./node_modules/sharp
 COPY --from=builder /app/node_modules/@img ./node_modules/@img
+COPY --from=builder /app/node_modules/mammoth ./node_modules/mammoth
+COPY --from=builder /app/node_modules/pdf-parse ./node_modules/pdf-parse
+COPY --from=builder /app/node_modules/pdfjs-dist ./node_modules/pdfjs-dist
 COPY docker-entrypoint.sh ./
 
 RUN chmod +x docker-entrypoint.sh

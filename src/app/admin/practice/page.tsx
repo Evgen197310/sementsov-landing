@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, X, ChevronDown, ChevronRight } from "lucide-react";
 import { FileAttachments } from "@/components/admin/FileAttachments";
+import AiDropZone from "@/components/admin/AiDropZone";
 
 interface PracticeCase {
   id: number;
@@ -14,6 +15,7 @@ interface PracticeCase {
   actions: string;
   result: string;
   tags: string;
+  thumbnail: string;
   attachments: string;
   categoryId: number | null;
 }
@@ -77,11 +79,31 @@ export default function AdminPracticePage() {
     load();
   };
 
-  const emptyCase = (catId?: number): EditingCase => ({ title: "", slug: "", content: "", excerpt: "", situation: "", actions: "", result: "", tags: "", attachments: "", categoryId: catId ?? null });
+  const emptyCase = (catId?: number): EditingCase => ({ title: "", slug: "", content: "", excerpt: "", situation: "", actions: "", result: "", tags: "", thumbnail: "", attachments: "", categoryId: catId ?? null });
+
+  const handleAiResult = (data: Record<string, unknown>) => {
+    const catSlug = data.categorySlug as string || "";
+    const matchedCat = allCategories.find((c) => c.slug === catSlug);
+    setEditingCase({
+      title: (data.title as string) || "",
+      slug: toSlug((data.title as string) || ""),
+      content: (data.content as string) || "",
+      excerpt: (data.excerpt as string) || "",
+      situation: (data.situation as string) || "",
+      actions: (data.actions as string) || "",
+      result: (data.result as string) || "",
+      tags: (data.tags as string) || "",
+      thumbnail: "",
+      attachments: "",
+      categoryId: matchedCat?.id ?? allCategories[0]?.id ?? null,
+    });
+  };
   const allCategories = data.categories;
 
   return (
     <div>
+      <AiDropZone onResult={handleAiResult} />
+
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-['Playfair_Display'] font-semibold text-[#f5f3f0]">Практика</h1>
         <div className="flex gap-2">
@@ -198,7 +220,8 @@ export default function AdminPracticePage() {
             <Txt label="Действия" value={editingCase.actions || ""} onChange={(v) => setEditingCase({ ...editingCase, actions: v })} rows={3} />
             <Txt label="Результат" value={editingCase.result || ""} onChange={(v) => setEditingCase({ ...editingCase, result: v })} rows={3} />
             <Inp label="Теги (через запятую)" value={editingCase.tags || ""} onChange={(v) => setEditingCase({ ...editingCase, tags: v })} />
-            <Txt label="Содержимое" value={editingCase.content || ""} onChange={(v) => setEditingCase({ ...editingCase, content: v })} />
+            <Inp label="Миниатюра (URL)" value={editingCase.thumbnail || ""} onChange={(v) => setEditingCase({ ...editingCase, thumbnail: v })} />
+            <Txt label="Содержимое (HTML)" value={editingCase.content || ""} onChange={(v) => setEditingCase({ ...editingCase, content: v })} />
             <FileAttachments value={editingCase.attachments || ""} onChange={(v) => setEditingCase({ ...editingCase, attachments: v })} />
             <button onClick={saveCase} className="w-full bg-[#c9a962] text-[#0b1c2b] py-3 rounded-lg font-medium hover:bg-[#ddc488] transition-colors">Сохранить</button>
           </div>

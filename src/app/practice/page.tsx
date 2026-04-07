@@ -51,8 +51,9 @@ export default async function PracticePage() {
               <h2 className="text-xl font-['Playfair_Display'] font-semibold text-[#f5f3f0] mb-4">Другие дела</h2>
               <div className="space-y-3">
                 {uncategorized.map((c) => (
-                  <div key={c.id} className="bg-[#0f2133] border border-[#1e3a51]/30 rounded-lg p-4">
-                    <h3 className="text-[#c5cdd5] text-sm font-medium">{c.title}</h3>
+                  <Link key={c.id} href={`/practice/other/${c.slug}`} className="block bg-[#0f2133] border border-[#1e3a51]/30 rounded-lg p-4 hover:border-[#c9a962]/30 transition-colors group">
+                    <h3 className="text-[#c5cdd5] text-sm font-medium group-hover:text-[#c9a962] transition-colors">{c.title}</h3>
+                    {c.excerpt && <p className="text-[#8b9caa] text-xs mt-1 line-clamp-2">{c.excerpt}</p>}
                     {c.tags && (
                       <div className="flex flex-wrap gap-2 mt-2">
                         {c.tags.split(",").map((tag) => (
@@ -62,7 +63,7 @@ export default async function PracticePage() {
                         ))}
                       </div>
                     )}
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>

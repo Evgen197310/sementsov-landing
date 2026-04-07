@@ -119,6 +119,7 @@ model PracticeCase {
   actions     String            @default("")
   result      String            @default("")
   tags        String            @default("")
+  thumbnail   String            @default("")
   attachments String            @default("")
   createdAt   DateTime          @default(now())
   categoryId  Int?

@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, FileText, ImageIcon } from "lucide-react";
 
 export const revalidate = 3600;
 
@@ -12,8 +12,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return { title: `${cat.name} — МКА «Семенцов и Партнёры»` };
 }
 
-function stripHtml(html: string): string {
-  return html.replace(/<[^>]+>/g, "").trim();
+function hasPdfAttachment(attachments: string): boolean {
+  try {
+    const items = JSON.parse(attachments || "[]");
+    return items.some((i: { originalName?: string; name?: string; url?: string }) => {
+      const n = i.originalName || i.name || i.url || "";
+      return n.toLowerCase().endsWith(".pdf");
+    });
+  } catch { return false; }
+}
+
+function hasImages(content: string): boolean {
+  return (content.match(/<img/g) || []).length > 1;
 }
 
 export default async function PracticeCategoryPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -44,22 +54,54 @@ export default async function PracticeCategoryPage({ params }: { params: Promise
             <p className="text-[#8b9caa]">В данной категории пока нет дел.</p>
           ) : (
             <div className="space-y-4">
-              {cat.cases.map((c) => (
-                <Link key={c.id} href={`/practice/${cat.slug}/${c.slug}`} className="block bg-[#0f2133] border border-[#1e3a51]/30 rounded-xl p-6 hover:border-[#c9a962]/40 transition-colors group">
-                  <h2 className="text-[#f5f3f0] font-semibold mb-2 group-hover:text-[#c9a962] transition-colors">{c.title}</h2>
-                  {c.excerpt && <p className="text-[#8b9caa] text-sm mb-3">{c.excerpt}</p>}
-                  {c.content && <p className="text-[#8b9caa] text-sm line-clamp-3">{stripHtml(c.content)}</p>}
-                  {c.tags && (
-                    <div className="flex flex-wrap gap-2 mt-4">
-                      {c.tags.split(",").map((tag) => (
-                        <span key={tag} className="text-[10px] bg-[#1e3a51]/50 text-[#8b9caa] px-2 py-0.5 rounded">
-                          {tag.trim()}
-                        </span>
-                      ))}
+              {cat.cases.map((c) => {
+                const isPdf = hasPdfAttachment(c.attachments);
+                const isScans = hasImages(c.content);
+                return (
+                  <Link
+                    key={c.id}
+                    href={`/practice/${cat.slug}/${c.slug}`}
+                    className="flex gap-4 md:gap-6 bg-[#0f2133] border border-[#1e3a51]/30 rounded-xl p-4 md:p-6 hover:border-[#c9a962]/40 transition-colors group"
+                  >
+                    {/* Thumbnail */}
+                    <div className="flex-shrink-0 w-20 h-20 md:w-28 md:h-28 rounded-lg overflow-hidden bg-[#0b1c2b] flex items-center justify-center">
+                      {c.thumbnail ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img src={c.thumbnail} alt="" className="w-full h-full object-cover" />
+                      ) : isPdf ? (
+                        <FileText className="w-8 h-8 text-red-400" />
+                      ) : isScans ? (
+                        <ImageIcon className="w-8 h-8 text-blue-400" />
+                      ) : (
+                        <FileText className="w-8 h-8 text-[#1e3a51]" />
+                      )}
                     </div>
-                  )}
-                </Link>
-              ))}
+
+                    {/* Text */}
+                    <div className="flex-1 min-w-0">
+                      <h2 className="text-[#f5f3f0] font-semibold mb-1 group-hover:text-[#c9a962] transition-colors line-clamp-2">
+                        {c.title}
+                      </h2>
+                      {c.excerpt && (
+                        <p className="text-[#8b9caa] text-sm mb-2 line-clamp-2">{c.excerpt}</p>
+                      )}
+                      <div className="flex items-center gap-3 text-xs text-[#5a6f80]">
+                        {isPdf && <span className="flex items-center gap-1"><FileText className="w-3 h-3" /> PDF</span>}
+                        {isScans && <span className="flex items-center gap-1"><ImageIcon className="w-3 h-3" /> Сканы</span>}
+                      </div>
+                      {c.tags && (
+                        <div className="flex flex-wrap gap-1.5 mt-2">
+                          {c.tags.split(",").slice(0, 3).map((tag) => (
+                            <span key={tag} className="text-[10px] bg-[#1e3a51]/50 text-[#8b9caa] px-2 py-0.5 rounded">
+                              {tag.trim()}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           )}
         </div>

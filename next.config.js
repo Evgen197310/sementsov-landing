@@ -4,7 +4,7 @@ const nextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
-  serverExternalPackages: ["@prisma/client", "sharp"],
+  serverExternalPackages: ["@prisma/client", "sharp", "mammoth", "pdf-parse"],
   async headers() {
     return [
       {

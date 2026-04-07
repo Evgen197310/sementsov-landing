@@ -2,7 +2,6 @@ import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { PublicAttachments } from "@/components/PublicAttachments";
 
 export const revalidate = 3600;
 
@@ -42,10 +41,10 @@ export default async function PracticeCategoryPage({ params }: { params: Promise
           ) : (
             <div className="space-y-4">
               {cat.cases.map((c) => (
-                <div key={c.id} className="bg-[#0f2133] border border-[#1e3a51]/30 rounded-xl p-6">
-                  <h2 className="text-[#f5f3f0] font-semibold mb-2">{c.title}</h2>
+                <Link key={c.id} href={`/practice/${cat.slug}/${c.slug}`} className="block bg-[#0f2133] border border-[#1e3a51]/30 rounded-xl p-6 hover:border-[#c9a962]/40 transition-colors group">
+                  <h2 className="text-[#f5f3f0] font-semibold mb-2 group-hover:text-[#c9a962] transition-colors">{c.title}</h2>
                   {c.excerpt && <p className="text-[#8b9caa] text-sm mb-3">{c.excerpt}</p>}
-                  {c.content && <div className="text-[#8b9caa] text-sm whitespace-pre-line">{c.content}</div>}
+                  {c.content && <p className="text-[#8b9caa] text-sm line-clamp-3">{c.content}</p>}
                   {c.tags && (
                     <div className="flex flex-wrap gap-2 mt-4">
                       {c.tags.split(",").map((tag) => (
@@ -55,8 +54,7 @@ export default async function PracticeCategoryPage({ params }: { params: Promise
                       ))}
                     </div>
                   )}
-                  <PublicAttachments attachments={c.attachments} />
-                </div>
+                </Link>
               ))}
             </div>
           )}

@@ -2,8 +2,13 @@ import { FileText, Image, Video, Download } from "lucide-react";
 
 interface AttachmentItem {
   url: string;
-  originalName: string;
+  originalName?: string;
+  name?: string;
   size: number;
+}
+
+function displayName(item: AttachmentItem): string {
+  return item.originalName || item.name || item.url.split("/").pop() || "file";
 }
 
 function parseAttachments(raw: string): AttachmentItem[] {
@@ -46,13 +51,13 @@ export function PublicAttachments({ attachments }: { attachments: string }) {
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
-            download={item.originalName}
+            download={displayName(item)}
             className="flex items-center gap-3 bg-[#0f2133] border border-[#1e3a51]/30 rounded-lg px-4 py-3 hover:border-[#c9a962]/30 transition-colors group"
           >
-            <FileIcon name={item.originalName} />
+            <FileIcon name={displayName(item)} />
             <div className="flex-1 min-w-0">
               <div className="text-[#f5f3f0] text-sm truncate group-hover:text-[#c9a962] transition-colors">
-                {item.originalName}
+                {displayName(item)}
               </div>
               <div className="text-[#5a6f80] text-xs">{formatSize(item.size)}</div>
             </div>

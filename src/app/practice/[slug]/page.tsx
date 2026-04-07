@@ -12,6 +12,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return { title: `${cat.name} — МКА «Семенцов и Партнёры»` };
 }
 
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]+>/g, "").trim();
+}
+
 export default async function PracticeCategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const cat = await prisma.practiceCategory.findUnique({
@@ -44,7 +48,7 @@ export default async function PracticeCategoryPage({ params }: { params: Promise
                 <Link key={c.id} href={`/practice/${cat.slug}/${c.slug}`} className="block bg-[#0f2133] border border-[#1e3a51]/30 rounded-xl p-6 hover:border-[#c9a962]/40 transition-colors group">
                   <h2 className="text-[#f5f3f0] font-semibold mb-2 group-hover:text-[#c9a962] transition-colors">{c.title}</h2>
                   {c.excerpt && <p className="text-[#8b9caa] text-sm mb-3">{c.excerpt}</p>}
-                  {c.content && <p className="text-[#8b9caa] text-sm line-clamp-3">{c.content}</p>}
+                  {c.content && <p className="text-[#8b9caa] text-sm line-clamp-3">{stripHtml(c.content)}</p>}
                   {c.tags && (
                     <div className="flex flex-wrap gap-2 mt-4">
                       {c.tags.split(",").map((tag) => (

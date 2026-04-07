@@ -40,9 +40,10 @@ export default async function PracticeCasePage({ params }: { params: Promise<{ s
       <section className="section-padding">
         <div className="container mx-auto px-4 max-w-5xl">
           {practiceCase.content && (
-            <div className="prose prose-invert max-w-none text-[#c5cdd5] whitespace-pre-line leading-relaxed">
-              {practiceCase.content}
-            </div>
+            <div
+              className="prose prose-invert max-w-none text-[#c5cdd5] leading-relaxed [&_img]:rounded-lg [&_img]:my-4 [&_img]:max-w-full [&_img]:h-auto [&_p]:whitespace-pre-line"
+              dangerouslySetInnerHTML={{ __html: practiceCase.content }}
+            />
           )}
           {practiceCase.tags && (
             <div className="flex flex-wrap gap-2 mt-8">

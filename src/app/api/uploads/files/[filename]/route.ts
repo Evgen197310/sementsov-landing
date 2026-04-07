@@ -23,7 +23,7 @@ export async function GET(
   try {
     const { filename } = await params;
 
-    if (!/^[a-zA-Z0-9_-]+\.[a-z0-9]+$/.test(filename)) {
+    if (!/^[a-zA-Z0-9_.-]+\.[a-z0-9]+$/.test(filename) || filename.includes("..")) {
       return NextResponse.json({ error: "Invalid filename" }, { status: 400 });
     }
 

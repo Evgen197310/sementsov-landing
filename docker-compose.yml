@@ -9,8 +9,8 @@ services:
       - SMTP_USER=
       - SMTP_PASS=
       - SMTP_FROM=v.sementsov@sementsov.ru
-      - ANTHROPIC_API_KEY=REMOVED_ANTHROPIC_KEY
-      - OPENAI_API_KEY=REMOVED_OPENAI_KEY
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
     volumes:
       - sementsov-data:/app/data
     networks:

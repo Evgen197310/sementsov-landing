@@ -17,7 +17,7 @@ import urllib.error
 # ── Config ──────────────────────────────────────────────────────────
 DB_PATH = '/var/lib/docker/volumes/sementsov_landing_sementsov-data/_data/prod.db'
 FILES_DIR = '/var/lib/docker/volumes/sementsov_landing_sementsov-data/_data/uploads/files'
-ANTHROPIC_API_KEY = 'REMOVED_ANTHROPIC_KEY'
+ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
 MODEL = 'claude-sonnet-4-20250514'
 
 # ── Prompts ─────────────────────────────────────────────────────────
